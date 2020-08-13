@@ -20,7 +20,8 @@ protocol BluetoothManagerDelegate: AnyObject {
 }
 
 protocol BluetoothManager {
-    var deviceEncounters: Dictionary<String, [DeviceEncounter]> { get }
+    var deviceEncounterKnown: Dictionary<String, [DeviceEncounter]> { get }
+    var deviceEncounterUnKnown: Dictionary<String, Int> { get }
     var delegate: BluetoothManagerDelegate? { get set }
     func startAdvertising(with name: String)
     func startScanning()
@@ -29,11 +30,16 @@ protocol BluetoothManager {
 class CoreBluetoothManager: NSObject, BluetoothManager {
     // MARK: - Public properties
     weak var delegate: BluetoothManagerDelegate?
-    private(set) var deviceEncounters = Dictionary<String, [DeviceEncounter]>() {
+    private(set) var deviceEncounterKnown = Dictionary<String, [DeviceEncounter]>() {
         didSet {
             delegate?.peripheralsDidUpdate()
         }
     }
+    private(set) var deviceEncounterUnKnown = Dictionary<String, Int>() {
+       didSet {
+           delegate?.peripheralsDidUpdate()
+       }
+   }
 
     // MARK: - Public methods
     func startAdvertising(with name: String) {
@@ -92,28 +98,34 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
     
     // called every time the device encounters someone
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
-        for (k,_) in deviceEncounters {
-            print("KEY: " + k)
-        }
         let otherID = advertisementData[CBAdvertisementDataLocalNameKey] as? String
         if otherID != nil {
             print("advertising data id: " + otherID!)
             let de = DeviceEncounter(ID: otherID!, distance: RSSI)
             let time = dateToCoarseTime(date: Date())
-            if deviceEncounters[time] != nil {
+            if deviceEncounterKnown[time] != nil {
                 // add to existing list
-                var existingEncounters = deviceEncounters[time]
+                var existingEncounters = deviceEncounterKnown[time]
                 existingEncounters!.append(de)
                 print("inserted into existing list")
             } else {
                 // create the key and list
                 let initialList: [DeviceEncounter] = [de]
-                deviceEncounters[time] = initialList
-                deviceEncounters.removeValue(forKey: time)
+                deviceEncounterKnown[time] = initialList
+                deviceEncounterKnown.removeValue(forKey: time)
                 print("created new list")
             }
         } else {
             print("advertising data id: nil")
+            let time = dateToCoarseTime(date: Date())
+            if deviceEncounterUnKnown[time] != nil {
+                // add to existing list
+                let existingEncounters = deviceEncounterUnKnown[time]
+                deviceEncounterUnKnown[time] = existingEncounters! + 1
+            } else {
+                // create the key and value
+                deviceEncounterUnKnown[time] = 1
+            }
         }
     }
     
@@ -125,7 +137,7 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
         dateFormatter.dateFormat = Constants.DATE_STR.rawValue
         
         var toDrop: [String] = [] // to remove
-        for (k, _) in deviceEncounters {
+        for (k, _) in deviceEncounterKnown {
             let date = dateFormatter.date(from: k)
             if date! < lastOkDate! {
                 toDrop.append(k)
@@ -133,7 +145,7 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
         }
         
         for k in toDrop {
-            deviceEncounters.removeValue(forKey: k)
+            deviceEncounterKnown.removeValue(forKey: k)
         }
     }
 }

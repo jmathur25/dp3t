@@ -109,10 +109,31 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
                 // create the key and list
                 let initialList: [DeviceEncounter] = [de]
                 deviceEncounters[time] = initialList
+                deviceEncounters.removeValue(forKey: time)
                 print("created new list")
             }
         } else {
             print("advertising data id: nil")
+        }
+    }
+    
+    // expires keys older than 14 days old
+    func checkAndExpireOldKeys() {
+        let daySub = DateComponents(day: -Constants.EXPIRE_DAYS.rawValue)
+        let lastOkDate = Calendar.current.date(byAdding: daySub, to: Date())
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = Constants.DATE_STR.rawValue
+        
+        var toDrop: [String] = [] // to remove
+        for (k, _) in deviceEncounters {
+            let date = dateFormatter.date(from: k)
+            if date! < lastOkDate! {
+                toDrop.append(k)
+            }
+        }
+        
+        for k in toDrop {
+            deviceEncounters.removeValue(forKey: k)
         }
     }
 }
@@ -120,7 +141,6 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
 // turns date into a coarse time Y/M/D
 func dateToCoarseTime(date: Date) -> String {
     let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy/MM/dd"
+    formatter.dateFormat = Constants.DATE_STR.rawValue
     return formatter.string(from: date)
 }
-

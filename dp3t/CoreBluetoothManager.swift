@@ -9,12 +9,18 @@
 import Foundation
 import CoreBluetooth
 
+// defines an encounter with another device
+struct DeviceEncounter {
+    var ID: String // 26 byte identifier
+    var distance: NSNumber // RSSI distance
+}
+
 protocol BluetoothManagerDelegate: AnyObject {
     func peripheralsDidUpdate()
 }
 
 protocol BluetoothManager {
-    var peripherals: Dictionary<UUID, CBPeripheral> { get }
+    var deviceEncounters: Dictionary<String, [DeviceEncounter]> { get }
     var delegate: BluetoothManagerDelegate? { get set }
     func startAdvertising(with name: String)
     func startScanning()
@@ -23,7 +29,7 @@ protocol BluetoothManager {
 class CoreBluetoothManager: NSObject, BluetoothManager {
     // MARK: - Public properties
     weak var delegate: BluetoothManagerDelegate?
-    private(set) var peripherals = Dictionary<UUID, CBPeripheral>() {
+    private(set) var deviceEncounters = Dictionary<String, [DeviceEncounter]>() {
         didSet {
             delegate?.peripheralsDidUpdate()
         }
@@ -83,15 +89,38 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
             #warning("Error handling")
         }
     }
-
+    
+    // called every time the device encounters someone
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
-        peripherals[peripheral.identifier] = peripheral
-        print("got peripheral: " + peripheral.identifier.uuidString)
-        let local = advertisementData[CBAdvertisementDataLocalNameKey] as? String
-        if local != nil {
-            print("advertising data name: " + local!)
+        for (k,_) in deviceEncounters {
+            print("KEY: " + k)
+        }
+        let otherID = advertisementData[CBAdvertisementDataLocalNameKey] as? String
+        if otherID != nil {
+            print("advertising data id: " + otherID!)
+            let de = DeviceEncounter(ID: otherID!, distance: RSSI)
+            let time = dateToCoarseTime(date: Date())
+            if deviceEncounters[time] != nil {
+                // add to existing list
+                var existingEncounters = deviceEncounters[time]
+                existingEncounters!.append(de)
+                print("inserted into existing list")
+            } else {
+                // create the key and list
+                let initialList: [DeviceEncounter] = [de]
+                deviceEncounters[time] = initialList
+                print("created new list")
+            }
         } else {
-            print("advertising data name: nil")
+            print("advertising data id: nil")
         }
     }
 }
+
+// turns date into a coarse time Y/M/D
+func dateToCoarseTime(date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy/MM/dd"
+    return formatter.string(from: date)
+}
+

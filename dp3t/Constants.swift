@@ -9,5 +9,6 @@
 import UIKit
 
 enum Constants: String {
+    // shared by everyone on the app
     case SERVICE_UUID = "4DF91029-B356-463E-9F48-BAB077BF3EF5"
 }

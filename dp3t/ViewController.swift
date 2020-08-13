@@ -17,8 +17,9 @@ class ViewController: UIViewController {
 
         bluetoothManager = CoreBluetoothManager()
         
-        // generate this randomly
-        let name = "1F5B29BF-1725-4A85-BD64-D9188947AB12"
+        // generate this randomly, remove dashes for conciseness
+        // can only do 26 bytes
+        let name = "1F5B29BF17254A85BD64D91889"
         bluetoothManager.startAdvertising(with: name)
         bluetoothManager.startScanning()
     }

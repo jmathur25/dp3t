@@ -14,3 +14,7 @@ test:
 	@echo "Running all tests"
 	@echo "========================="
 	${PYTHON} -m unittest discover -v -s ./ -p $(FILE)
+
+.PHONY: travis-ci-test
+travis-ci-test:
+	python -m unittest discover -v -s ./ -p $(FILE)

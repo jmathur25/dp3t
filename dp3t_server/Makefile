@@ -17,4 +17,7 @@ test:
 
 .PHONY: travis-ci-test
 travis-ci-test:
+	@echo "========================="
+	@echo "Running all tests"
+	@echo "========================="
 	python -m unittest discover -v -s ./ -p $(FILE)

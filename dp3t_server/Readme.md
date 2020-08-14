@@ -6,7 +6,7 @@ make setup
 
 To run locally, run:
 ```
-source .dp3t-server/bin/activate
+source .dp3t_server/bin/activate
 ```
 
 You can exit by running:

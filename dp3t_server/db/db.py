@@ -5,7 +5,7 @@ import time
 import json
 import datetime
 
-from dp3t_server.shared import (
+from shared import (
     REDIS_CLIENT,
     REDIS_DISTRIBUTE_INFECTED_USERS_KEY,
     REDIS_LATEST_INFECTED_USERS_KEY,
@@ -23,18 +23,22 @@ def setup_and_run_maintenance():
 
 def run_maintenance():
     while True:
-        start_time = datetime.datetime.utcnow()
-        next_midnight = start_time + \
-                        datetime.timedelta( \
-                            days=1, \
-                            hours=-start_time.hour, \
-                            minutes=-start_time.minute, \
-                            seconds=-start_time.second,
-                        )
-        sleep_time = (next_midnight - start_time).total_seconds()
-        time.sleep(sleep_time)
+        sleep_until_utc_midnight()
         purge_old_infected_users_list()
         migrate_all_infected_user_reports()
+
+
+def sleep_until_utc_midnight():
+    start_time = datetime.datetime.utcnow()
+    next_midnight = start_time + \
+                    datetime.timedelta( \
+                        days=1, \
+                        hours=-start_time.hour, \
+                        minutes=-start_time.minute, \
+                        seconds=-start_time.second,
+                    )
+    sleep_time = (next_midnight - start_time).total_seconds()
+    time.sleep(sleep_time)
 
 
 # delete the current distribution list

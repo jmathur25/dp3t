@@ -13,6 +13,7 @@ from shared import (
     ID_LENGTH,
     DATE_FORMAT
 )
+import db
 
 APPLICATION = flask.Flask(__name__)
 
@@ -78,3 +79,4 @@ def report_infected_user():
 if __name__ == "__main__":
     APPLICATION.debug = True
     APPLICATION.run(host="0.0.0.0", threaded=True)
+    db.setup_and_run_maintenance()

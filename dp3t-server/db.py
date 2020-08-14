@@ -14,7 +14,7 @@ from shared import (
 
 
 # runs scripts to maintain database in a separate thread
-def setup_maintenance():
+def setup_and_run_maintenance():
     thread = threading.Thread(target = run_maintenance)
     thread.start()
     thread.join()

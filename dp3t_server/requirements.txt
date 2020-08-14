@@ -1,3 +1,6 @@
 flask
 redis
+
+# assist in testing
+fakeredis
 freezegun

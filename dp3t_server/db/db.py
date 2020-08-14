@@ -41,9 +41,10 @@ def sleep_until_utc_midnight():
     time.sleep(sleep_time)
 
 
-# delete the current distribution list
+# delete the previous day's distribution list
 def purge_old_infected_users_list():
-    REDIS_CLIENT.delete(REDIS_DISTRIBUTE_INFECTED_USERS_KEY)
+    yday = datetime.datetime.utcnow() + datetime.timedelta(days=-1)
+    REDIS_CLIENT.delete(REDIS_DISTRIBUTE_INFECTED_USERS_KEY.format(yday.year, yday.month, yday.day))
 
 
 # migrate each user into the distribution list
@@ -59,6 +60,7 @@ def migrate_all_infected_user_reports():
     for user_data in user_list:
         data = json.loads(user_data)
         date = datetime.datetime.strptime(data['date'], DATE_FORMAT)
+        print(date)
         key = REDIS_DISTRIBUTE_INFECTED_USERS_KEY.format(date.year, date.month, date.day)
-        REDIS_CLIENT.rpush(key, data)
+        REDIS_CLIENT.rpush(key, data['user_id'])
 

@@ -73,10 +73,16 @@ def report_infected_user():
         return resp
 
     return flask.make_response("", 202)
+
+
+def setup():
+    if not REDIS_CLIENT.ping():
+        logging.fatal("error: could not ping redis")
     
 
 # run the application.
 if __name__ == "__main__":
+    setup()
     APPLICATION.debug = True
     APPLICATION.run(host="0.0.0.0", threaded=True)
     db.setup_and_run_maintenance()

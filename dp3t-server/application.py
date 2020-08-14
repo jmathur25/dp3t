@@ -5,7 +5,7 @@ import flask
 import logging
 import datetime
 
-from .globals import (
+from shared import (
     REDIS_CLIENT,
     REDIS_DISTRIBUTE_INFECTED_USERS_KEY,
     REDIS_LATEST_INFECTED_USERS_KEY,

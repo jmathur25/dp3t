@@ -5,7 +5,7 @@ import time
 import json
 import datetime
 
-from .globals import (
+from shared import (
     REDIS_CLIENT,
     REDIS_DISTRIBUTE_INFECTED_USERS_KEY,
     REDIS_LATEST_INFECTED_USERS_KEY,
@@ -43,8 +43,8 @@ def purge_old_infected_users_list():
 
 
 # migrate each user into the distribution list
-# [todo] do not delete the list as that could lose data if function fails
-# instead, archive the key for a few days before deleting
+# [todo] do not delete the list as that could lose data if this function fails
+# instead, archive the key for a few days before deleting for better resiliency
 def migrate_all_infected_user_reports():
     pipeline = REDIS_CLIENT.pipeline()
     pipeline.lrange(REDIS_LATEST_INFECTED_USERS_KEY, 0, -1)

@@ -5,14 +5,7 @@ import flask
 import logging
 import datetime
 
-from shared import (
-    REDIS_CLIENT,
-    REDIS_DISTRIBUTE_INFECTED_USERS_KEY,
-    REDIS_LATEST_INFECTED_USERS_KEY,
-    MAX_DAY_STORAGE,
-    ID_LENGTH,
-    DATE_FORMAT
-)
+import shared
 from db import db
 
 APPLICATION = flask.Flask(__name__)
@@ -25,8 +18,8 @@ def home():
 
 @APPLICATION.route('/infected_users_list/<year>/<month>/<day>', methods=['GET'])
 def infected_users(year, month, day):
-    key = REDIS_DISTRIBUTE_INFECTED_USERS_KEY.format(year, month, day)
-    user_list = REDIS_CLIENT.lrange(key, 0, -1)
+    key = shared.REDIS_DISTRIBUTE_INFECTED_USERS_KEY.format(year, month, day)
+    user_list = shared.REDIS_CLIENT.lrange(key, 0, -1)
     for i in range(len(user_list)):
         # convert byte string to string
         user_list[i] = str(user_list[i])
@@ -49,13 +42,13 @@ def report_infected_user():
             resp = flask.make_response(f"Error: {k} not in JSON", 400)
             return resp
     user_id = data['user_id']
-    if len(user_id) != ID_LENGTH:
+    if len(user_id) != shared.ID_LENGTH:
         resp = flask.make_response("Error: user_id should have length 26", 400)
         return resp
     date_str = data['date']
     try:
         # see if we can parse date
-        datetime.datetime.strptime(date_str, DATE_FORMAT)
+        datetime.datetime.strptime(date_str, shared.DATE_FORMAT)
     except:
         resp = flask.make_response("Error: date was not expected format of YYYY/MM/DD", 400)
         return resp
@@ -68,7 +61,7 @@ def report_infected_user():
 
         }
     )
-    if REDIS_CLIENT.rpush(REDIS_LATEST_INFECTED_USERS_KEY, json_data) != 1:
+    if shared.REDIS_CLIENT.rpush(shared.REDIS_LATEST_INFECTED_USERS_KEY, json_data) != 1:
         resp = flask.make_response("Error: failed to save provided data", 500)
         return resp
 
@@ -76,7 +69,7 @@ def report_infected_user():
 
 
 def setup():
-    if not REDIS_CLIENT.ping():
+    if not shared.REDIS_CLIENT.ping():
         logging.fatal("error: could not ping redis")
     
 

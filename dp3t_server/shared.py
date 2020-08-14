@@ -2,11 +2,7 @@ import redis
 import fakeredis
 import os
 
-REDIS_CLIENT = None
-if os.getenv("IS_PROD_ENV") == "true":
-    REDIS_CLIENT = redis.Redis(host='localhost', port=6379, db=0)
-else:
-    REDIS_CLIENT = fakeredis.FakeRedis()
+REDIS_CLIENT = redis.Redis(host='localhost', port=6379, db=0)
 
 # redis constants
 REDIS_DISTRIBUTE_INFECTED_USERS_KEY = "distribute_infected_users:{}:{}:{}"

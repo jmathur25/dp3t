@@ -5,7 +5,7 @@ import time
 import json
 import datetime
 
-from shared import (
+from dp3t_server.shared import (
     REDIS_CLIENT,
     REDIS_DISTRIBUTE_INFECTED_USERS_KEY,
     REDIS_LATEST_INFECTED_USERS_KEY,

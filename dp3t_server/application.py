@@ -5,7 +5,7 @@ import flask
 import logging
 import datetime
 
-from shared import (
+from dp3t_server.shared import (
     REDIS_CLIENT,
     REDIS_DISTRIBUTE_INFECTED_USERS_KEY,
     REDIS_LATEST_INFECTED_USERS_KEY,
@@ -13,7 +13,7 @@ from shared import (
     ID_LENGTH,
     DATE_FORMAT
 )
-import db
+from dp3t_server.db import db
 
 APPLICATION = flask.Flask(__name__)
 

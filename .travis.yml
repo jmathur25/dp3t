@@ -1,9 +1,10 @@
 language: python
 python:
   - "3.7.3"
+
 before_install: cd dp3t_server
 install:
   - pip install -r requirements.txt
-before_script: cd dp3t_server
+
 script:
   - make test

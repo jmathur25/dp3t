@@ -10,3 +10,5 @@ RUN pip install -r /build/dp3t/dp3t_server/requirements.txt
 
 # Make port 80 available for links and/or publish
 EXPOSE 80
+
+CMD python /app/main.py

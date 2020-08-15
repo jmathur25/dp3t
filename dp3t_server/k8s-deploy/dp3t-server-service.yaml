@@ -4,7 +4,7 @@ metadata:
   labels:
     app: dp3t-server
   name: dp3t-server
-  namespace: dp3t-server
+  namespace: dp3t
 spec:
   type: NodePort
   ports:

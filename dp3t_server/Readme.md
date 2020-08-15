@@ -13,3 +13,10 @@ You can exit by running:
 ```
 deactivate
 ```
+
+# Deployment
+eksctl create cluster \
+--name dp3t-app-prod \
+--version 1.17 \
+--region us-east-1 \
+--fargate

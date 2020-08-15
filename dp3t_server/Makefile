@@ -16,12 +16,22 @@ setup:
 local:
 	docker-compose up
 
-# deploy docker
+# makes docker image and pushes to public registry
 .PHONY: docker-image
 docker-image:
 	docker build -t ${CONTAINER_NAME} -f Dockerfiles/prod.Dockerfile .
 	docker tag ${CONTAINER_NAME} ${DOCKER_USERNAME}/${CONTAINER_NAME}-${CONTAINER_VERSION}
 	docker push ${DOCKER_USERNAME}/${CONTAINER_NAME}-${CONTAINER_VERSION}
+
+.PHONY: deploy
+deploy:
+	@echo "Make sure you run kubectl create namespace dp3t if running for the first time"
+	@echo "Choose prod or dev environments using Docker desktop"
+	kubectl apply -f k8s-deploy
+
+.PHONY: teardown
+teardown:
+	kubectl delete -f k8s-deploy
 
 .PHONY: test
 test:

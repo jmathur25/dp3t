@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: dp3t-server
+  name: dp3t-server
+  namespace: dp3t-server
+spec:
+  type: NodePort
+  ports:
+  - name: "dp3t-server-service"
+    port: 5000
+    targetPort: 80
+    nodePort: 31000
+  selector:
+    app: dp3t-server
+  

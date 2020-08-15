@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dp3t-server
+  name: dp3t-server
+  namespace: dp3t
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dp3t-server
+  template:
+    metadata:
+      labels:
+        app: dp3t-server
+    spec:
+      containers:
+      - image: jmather/dp3t-server:1.1
+        name: dp3t-server
+        ports:
+        - containerPort: 80
+          name: dp3t-server

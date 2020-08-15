@@ -5,7 +5,7 @@ import time
 import json
 import datetime
 
-import shared
+import config
 
 # runs scripts to maintain database in a separate thread
 def setup_and_run_maintenance():
@@ -38,22 +38,22 @@ def sleep_until_utc_midnight():
 # delete the previous day's distribution list
 def purge_old_infected_users_list():
     yday = datetime.datetime.utcnow() + datetime.timedelta(days=-1)
-    shared.REDIS_CLIENT.delete(shared.REDIS_DISTRIBUTE_INFECTED_USERS_KEY.format(yday.year, yday.month, yday.day))
+    config.REDIS_CLIENT.delete(config.REDIS_DISTRIBUTE_INFECTED_USERS_KEY.format(yday.year, yday.month, yday.day))
 
 
 # migrate each user into the distribution list
 # [todo] do not delete the list as that could lose data if this function fails
 # instead, archive the key for a few days before deleting for better resiliency
 def migrate_all_infected_user_reports():
-    pipeline = shared.REDIS_CLIENT.pipeline()
-    pipeline.lrange(shared.REDIS_LATEST_INFECTED_USERS_KEY, 0, -1)
-    pipeline.delete(shared.REDIS_LATEST_INFECTED_USERS_KEY)
+    pipeline = config.REDIS_CLIENT.pipeline()
+    pipeline.lrange(config.REDIS_LATEST_INFECTED_USERS_KEY, 0, -1)
+    pipeline.delete(config.REDIS_LATEST_INFECTED_USERS_KEY)
     responses = pipeline.execute()
     user_list = responses[0]
 
     for user_data in user_list:
         data = json.loads(user_data)
-        date = datetime.datetime.strptime(data['date'], shared.DATE_FORMAT)
-        key = shared.REDIS_DISTRIBUTE_INFECTED_USERS_KEY.format(date.year, date.month, date.day)
-        shared.REDIS_CLIENT.rpush(key, data['user_id'])
+        date = datetime.datetime.strptime(data['date'], config.DATE_FORMAT)
+        key = config.REDIS_DISTRIBUTE_INFECTED_USERS_KEY.format(date.year, date.month, date.day)
+        config.REDIS_CLIENT.rpush(key, data['user_id'])
 

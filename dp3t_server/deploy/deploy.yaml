@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp3t-server
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      dp3t-server: web
+  template:
+    metadata:
+      labels:
+        dp3t-server: web
+    spec:
+      containers:
+      - name: dp3t-server
+        image: jmather/dp3t-server-1.0
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dp3t-server-entrypoint
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    dp3t-server: web
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30001

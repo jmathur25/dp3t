@@ -3,6 +3,8 @@ FILE?=*_test.py
 VENV_NAME?=.dp3t_server
 PYTHON=${VENV_NAME}/bin/python3
 
+CONTAINER_NAME?=dp3t-server
+
 .PHONY: setup
 setup:
 	virtualenv ${VENV_NAME}
@@ -10,7 +12,12 @@ setup:
 
 .PHONY: server
 server:
-	${PYTHON} dp3t_server/application.py
+	${PYTHON} dp3t_server/main.py
+
+.PHONY: docker-container
+docker-container:
+	docker build -t ${CONTAINER_NAME} .
+	docker run -d -p 5000:80 --name=${CONTAINER_NAME} ${CONTAINER_NAME}
 
 .PHONY: test
 test:

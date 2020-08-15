@@ -7,3 +7,4 @@ COPY dp3t_server /app
 COPY requirements.txt /build
 
 RUN pip install -r /build/requirements.txt
+ 

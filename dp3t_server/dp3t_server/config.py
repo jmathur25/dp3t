@@ -1,9 +1,8 @@
 ''' configurations '''
 
-import os
 import redis
 
-REDIS_CLIENT = redis.Redis(host='0.0.0.0', port=10000, db=0)
+REDIS_CLIENT = redis.Redis(host='redis', db=0, socket_timeout=5)
 
 # redis constants
 REDIS_DISTRIBUTE_INFECTED_USERS_KEY = "distribute_infected_users:{}:{}:{}"

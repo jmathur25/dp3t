@@ -30,64 +30,47 @@ class ServerTest(unittest.TestCase):
     
     @mock.patch("config.REDIS_CLIENT", fakeredis.FakeStrictRedis())
     def test_infected_users_list(self):
-        today = datetime.datetime(
-            year=2020,
-            month=6,
-            day=25,
-            hour=2,
-            minute=5,
-            second=33,
-            tzinfo=datetime.timezone.utc,
-        )
-        yday = today + datetime.timedelta(days=-1)
-        today_key = config.REDIS_DISTRIBUTE_INFECTED_USERS_KEY.format(today.year, today.month, today.day)
-        yday_key = config.REDIS_DISTRIBUTE_INFECTED_USERS_KEY.format(yday.year, yday.month, yday.day)
+        fakeuser1 = {
+            "user_id": "a"*64,
+            "date": "2020-06-25",
+        }
+        fakeuser2 = {
+            "user_id": "b"*64,
+            "date": "2020-06-25",
+        }
+        fakeuser3 = {
+            "user_id": "c"*64,
+            "date": "2020-06-24",
+        }
+        user_list = [fakeuser1, fakeuser2, fakeuser3]
 
-        config.REDIS_CLIENT.rpush(
-            today_key,
-            "a"*64,
-            "b"*64,
-        )
-        config.REDIS_CLIENT.rpush(
-            yday_key,
-            "c"*64,
-            "d"*64,
-        )
+        user_string_list = []
+        for user in user_list:
+            user_str = json.dumps(user)
+            user_string_list.append(user_str)
+            config.REDIS_CLIENT.rpush(config.REDIS_DISTRIBUTE_INFECTED_USERS_KEY, user_str)
 
         # get
-        resp = ServerTest.client.get("/infected_users_list/2020/6/23")
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(json.loads(resp.get_data()), [])
-
-        resp = ServerTest.client.get("/infected_users_list/2020/6/24")
-        self.assertEqual(resp.status_code, 200)
+        resp = ServerTest.client.get("/infected_users_list")
         data = json.loads(resp.get_data())
-        self.assertEqual(set(data), {'c'*64, 'd'*64})
-
-        resp = ServerTest.client.get("/infected_users_list/2020/6/25")
-        self.assertEqual(resp.status_code, 200)
-        data = json.loads(resp.get_data())
-        self.assertEqual(set(data), {'a'*64, 'b'*64})
+        self.assertEqual(set(data), set(user_string_list))
 
 
     @mock.patch("config.REDIS_CLIENT", fakeredis.FakeStrictRedis())
     def test_end_to_end(self):
         post_data = {'user_id': 'a'*64, 'date': '2020-06-25'}
+        data_str = json.dumps(post_data)
 
         # post
-        resp = ServerTest.client.post("/report_infected_user", data=json.dumps(post_data))
+        resp = ServerTest.client.post("/report_infected_user", data=data_str)
         self.assertEqual(resp.status_code, 200)
 
         # migrate
         db.migrate_all_infected_user_reports()
 
         # get
-        resp = ServerTest.client.get("/infected_users_list/2020/6/24")
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(json.loads(resp.get_data()), [])
-
-        resp = ServerTest.client.get("/infected_users_list/2020/6/25")
+        resp = ServerTest.client.get("/infected_users_list")
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.get_data())
-        self.assertEqual(set(data), {'a'*64})
+        self.assertEqual(set(data), set([data_str]))
 

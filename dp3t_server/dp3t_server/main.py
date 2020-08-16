@@ -16,10 +16,9 @@ def home():
     return "App home page :)"
 
 
-@app.route('/infected_users_list/<year>/<month>/<day>', methods=['GET'])
-def infected_users_list(year, month, day):
-    key = config.REDIS_DISTRIBUTE_INFECTED_USERS_KEY.format(year, month, day)
-    user_list = config.REDIS_CLIENT.lrange(key, 0, -1)
+@app.route('/infected_users_list', methods=['GET'])
+def infected_users_list():
+    user_list = config.REDIS_CLIENT.lrange(config.REDIS_DISTRIBUTE_INFECTED_USERS_KEY, 0, -1)
     for i in range(len(user_list)):
         # convert byte string to string
         user_list[i] = user_list[i].decode()

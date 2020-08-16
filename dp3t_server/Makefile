@@ -1,7 +1,7 @@
 FILE?=*_test.py
 
 VENV_NAME?=.dp3t_server
-PYTHON=${VENV_NAME}/bin/python3
+PYTHON=${VENV_NAME}/bin/python
 
 DOCKER_USERNAME?=jmather
 CONTAINER_NAME?=dp3t-server

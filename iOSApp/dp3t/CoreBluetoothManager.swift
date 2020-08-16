@@ -6,6 +6,7 @@
 //  Copyright © 2020 Jatin Mathur. All rights reserved.
 //
 
+import UIKit
 import Foundation
 import CoreBluetooth
 
@@ -15,13 +16,22 @@ struct DeviceEncounter {
     var distance: NSNumber // RSSI distance
 }
 
+extension DeviceEncounter: Hashable {
+    static func == (lhs: DeviceEncounter, rhs: DeviceEncounter) -> Bool {
+        return lhs.ID == rhs.ID
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(ID)
+    }
+}
+
+
 protocol BluetoothManagerDelegate: AnyObject {
     func peripheralsDidUpdate()
 }
 
 protocol BluetoothManager {
-    var deviceEncounterKnown: Dictionary<String, [DeviceEncounter]> { get }
-    var deviceEncounterUnKnown: Dictionary<String, Int> { get }
     var delegate: BluetoothManagerDelegate? { get set }
     func startAdvertising(with name: String)
     func startScanning()
@@ -30,17 +40,9 @@ protocol BluetoothManager {
 class CoreBluetoothManager: NSObject, BluetoothManager {
     // MARK: - Public properties
     weak var delegate: BluetoothManagerDelegate?
-    private(set) var deviceEncounterKnown = Dictionary<String, [DeviceEncounter]>() {
-        didSet {
-            delegate?.peripheralsDidUpdate()
-        }
-    }
-    private(set) var deviceEncounterUnKnown = Dictionary<String, Int>() {
-       didSet {
-           delegate?.peripheralsDidUpdate()
-       }
-   }
-
+    private var deviceEncounterKnownKey = "device_encounter_known_dict"
+    private var deviceEncounterUnknownKey = "device_encounter_unknown_dict"
+    
     // MARK: - Public methods
     func startAdvertising(with name: String) {
         print("trying to advertise")
@@ -69,7 +71,7 @@ extension CoreBluetoothManager: CBPeripheralManagerDelegate {
             if peripheral.isAdvertising {
                 peripheral.stopAdvertising()
             }
-            let uuid = CBUUID(string: Constants.SERVICE_UUID.rawValue)
+            let uuid = CBUUID(string: ConstantsString.SERVICE_UUID.rawValue)
             var advertisingData: [String : Any] = [
                 CBAdvertisementDataServiceUUIDsKey: [uuid]
             ]
@@ -82,6 +84,37 @@ extension CoreBluetoothManager: CBPeripheralManagerDelegate {
 }
 
 extension CoreBluetoothManager: CBCentralManagerDelegate {
+    // returns the dict of known encounters saved on disk
+    func getEncounterKnownDict() -> Dictionary<String, Set<DeviceEncounter>> {
+        return UserDefaults.standard.value(forKey: deviceEncounterKnownKey) as! Dictionary<String, Set<DeviceEncounter>>
+    }
+    // returns the dict of unknown encounters saved on disk
+    func getEncounterUnKnownDict() -> Dictionary<String, Int> {
+        return UserDefaults.standard.value(forKey: deviceEncounterUnknownKey) as! Dictionary<String, Int>
+    }
+    // update the dict of known encounters saved on disk
+    func updateEncounterKnownDict(newDict: Dictionary<String, Set<DeviceEncounter>>) {
+        return UserDefaults.standard.set(newDict, forKey: deviceEncounterKnownKey)
+    }
+    // update the dict of unknown encounters saved on disk
+    func updateEncounterUnKnownDict(newDict: Dictionary<String, Int>) {
+        return UserDefaults.standard.set(newDict, forKey: deviceEncounterUnknownKey)
+    }
+    // return a set of encountered ids on a day
+    func getEncounteredEphIdsOnDay(date: Date) -> Set<String>? {
+        let deviceEncounterKnown = getEncounterKnownDict()
+        let time = dateToCoarseTime(date: date)
+        let dayEncounters = deviceEncounterKnown[time]
+        if dayEncounters == nil {
+            return nil
+        }
+        var dayEncountersID: Set<String> = []
+        for de in dayEncounters! {
+            dayEncountersID.insert(de.ID)
+        }
+        return dayEncountersID
+    }
+    
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         print("updated central state")
         if central.state == .poweredOn {
@@ -89,7 +122,7 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
             if central.isScanning {
                 central.stopScan()
             }
-            let uuid = CBUUID(string: Constants.SERVICE_UUID.rawValue)
+            let uuid = CBUUID(string: ConstantsString.SERVICE_UUID.rawValue)
             central.scanForPeripherals(withServices: [uuid])
         } else {
             #warning("Error handling")
@@ -98,6 +131,8 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
     
     // called every time the device encounters someone
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
+        var deviceEncounterKnown = getEncounterKnownDict()
+        var deviceEncounterUnKnown = getEncounterUnKnownDict()
         let otherID = advertisementData[CBAdvertisementDataLocalNameKey] as? String
         if otherID != nil {
             print("advertising data id: " + otherID!)
@@ -106,12 +141,12 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
             if deviceEncounterKnown[time] != nil {
                 // add to existing list
                 var existingEncounters = deviceEncounterKnown[time]
-                existingEncounters!.append(de)
+                existingEncounters!.insert(de)
                 print("inserted into existing list")
             } else {
                 // create the key and list
-                let initialList: [DeviceEncounter] = [de]
-                deviceEncounterKnown[time] = initialList
+                let initialSet: Set<DeviceEncounter> = [de]
+                deviceEncounterKnown[time] = initialSet
                 deviceEncounterKnown.removeValue(forKey: time)
                 print("created new list")
             }
@@ -127,15 +162,20 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
                 deviceEncounterUnKnown[time] = 1
             }
         }
+        updateEncounterKnownDict(newDict: deviceEncounterKnown)
+        updateEncounterUnKnownDict(newDict: deviceEncounterUnKnown)
     }
     
     // expires keys older than 14 days old
     func checkAndExpireOldKeys() {
-        let daySub = DateComponents(day: -Constants.EXPIRE_DAYS.rawValue)
+        var deviceEncounterKnown = getEncounterKnownDict()
+        var deviceEncounterUnKnown = getEncounterUnKnownDict()
+        let daySub = DateComponents(day: -ConstantsInt.EXPIRE_DAYS.rawValue)
         let lastOkDate = Calendar.current.date(byAdding: daySub, to: Date())
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = Constants.DATE_STR.rawValue
+        dateFormatter.dateFormat = ConstantsString.DATE_STR.rawValue
         
+        // update known encounters
         var toDrop: [String] = [] // to remove
         for (k, _) in deviceEncounterKnown {
             let date = dateFormatter.date(from: k)
@@ -143,16 +183,29 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
                 toDrop.append(k)
             }
         }
-        
         for k in toDrop {
             deviceEncounterKnown.removeValue(forKey: k)
         }
+        
+        // update unknown encounters
+        toDrop = [] // to remove
+        for (k, _) in deviceEncounterUnKnown {
+            let date = dateFormatter.date(from: k)
+            if date! < lastOkDate! {
+                toDrop.append(k)
+            }
+        }
+        for k in toDrop {
+            deviceEncounterUnKnown.removeValue(forKey: k)
+        }
+        updateEncounterKnownDict(newDict: deviceEncounterKnown)
+        updateEncounterUnKnownDict(newDict: deviceEncounterUnKnown)
     }
 }
 
-// turns date into a coarse time Y/M/D
+// turns date into a coarse time YYYY-MM-DD
 func dateToCoarseTime(date: Date) -> String {
     let formatter = DateFormatter()
-    formatter.dateFormat = Constants.DATE_STR.rawValue
+    formatter.dateFormat = ConstantsString.DATE_STR.rawValue
     return formatter.string(from: date)
 }

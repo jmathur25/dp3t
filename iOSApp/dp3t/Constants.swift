@@ -8,14 +8,14 @@
 
 import UIKit
 
-enum Constants: String {
+enum ConstantsString: String {
     // shared by everyone on the app
     case SERVICE_UUID = "4DF91029-B356-463E-9F48-BAB077BF3EF5"
     // how dates are stored in the dictionary
-    case DATE_STR = "yyyy/MM/dd"
+    case DATE_STR = "yyyy-MM-dd"
 }
 
-enum Constants: Int {
+enum ConstantsInt: Int {
     // expire devices met more than 14 days ago
     case EXPIRE_DAYS = 14
 }

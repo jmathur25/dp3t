@@ -49,8 +49,19 @@ teardown:
 	kubectl -n ${NAMESPACE} delete hpa ${DEPLOYMENT_NAME}
 
 .PHONY: test
-test: unittest
+test: unittest integration-test
 
-.PHONY: unittest
-unittest:
+.PHONY: unit-test
+unit-test:
 	${PYTHONPATH} -m unittest discover -v -s ./dp3t_server -p $(FILE)
+
+.PHONY: integration-test
+integration-test: integration-test-setup
+	${PYTHONPATH} -m unittest discover -v -s ./integration_tests -p $(FILE)
+	docker-compose down
+
+.PHONY: integration-test-setup
+integration-test-setup:
+	docker-compose build
+	env IS_TEST=true docker-compose up -d
+	sleep 5

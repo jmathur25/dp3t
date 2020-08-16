@@ -1,6 +1,7 @@
 ''' configurations '''
 
 import redis
+import os
 
 REDIS_CLIENT = redis.Redis(host='redis', db=0, socket_timeout=5)
 
@@ -15,3 +16,5 @@ DATE_FORMAT = "%Y-%m-%d"
 
 # testing params
 IS_TEST = False
+if os.getenv("IS_TEST") == 'true':
+    IS_TEST = True

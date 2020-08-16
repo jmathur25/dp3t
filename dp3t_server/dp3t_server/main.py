@@ -35,7 +35,6 @@ def report_infected_user():
         resp = flask.make_response("Error: could not parse JSON", 400)
         return resp
     
-    logging.info(f"DATA {data}")
     user_id = data['user_id']
     if len(user_id) != config.ID_LENGTH:
         msg = f"Error: user_id should have length {config.ID_LENGTH}"

@@ -5,8 +5,10 @@ services:
     build:
       context: ./dp3t_server
       dockerfile: local.Dockerfile
-    image: jmather/dp3t_server:1.2
-    container_name: dp3t_server
+    environment:
+      - IS_TEST=${IS_TEST}
+    image: dp3t_server_local
+    container_name: dp3t_server_local
     command: bash -c "bash prestart.sh && python main.py"
     volumes:
      - ./dp3t_server:/app

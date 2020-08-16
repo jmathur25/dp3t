@@ -1,12 +1,10 @@
 '''
-this file runs scripts on the database to keep it up-to-date
+this file runs scripts on the redis database to keep it up-to-date
 '''
 
 import threading
 import datetime
 import time
-import json
-import datetime
 import logging
 
 import config
@@ -14,19 +12,38 @@ import config
 
 # runs scripts to maintain database in a separate thread
 def setup_and_run_maintenance():
-    if not config.IS_TEST:
+    if config.IS_TEST:
+        logging.info("setting up test maintenance script...")
+        thread = threading.Thread(target=run_test_maintenance)
+        thread.start()
+    else:
         logging.info("setting up maintenance script...")
         thread = threading.Thread(target=run_maintenance)
         thread.start()
-    else:
-        logging.info("just a test, returning out...")
 
 
+# sync users every UTC midnight
 def run_maintenance():
     while True:
         sleep_until_utc_midnight()
         purge_infected_users_list()
         migrate_all_infected_user_reports()
+
+
+# sync the latest changes to the distribution list every second
+# does not wipe the old infected users list
+def run_test_maintenance():
+    logging.info("every second we check for reported users and sync them over...")
+    previous_num_users = 0
+    while True:
+        infected_list = config.REDIS_CLIENT.lrange(config.REDIS_LATEST_INFECTED_USERS_KEY, 0, -1)
+        if len(infected_list) != previous_num_users:
+            logging.info(f"syncing {len(infected_list)} users over")
+            for user_data in infected_list:
+                config.REDIS_CLIENT.rpush(config.REDIS_DISTRIBUTE_INFECTED_USERS_KEY, user_data)
+            # save this
+            previous_num_users = len(infected_list)
+        time.sleep(1)
 
 
 def sleep_until_utc_midnight():
@@ -43,7 +60,7 @@ def sleep_until_utc_midnight():
     time.sleep(sleep_time)
 
 
-# delete the day's distribution list
+# delete the day distribution list
 def purge_infected_users_list():
     logging.info(f"purging distribution list")
     config.REDIS_CLIENT.delete(config.REDIS_DISTRIBUTE_INFECTED_USERS_KEY)

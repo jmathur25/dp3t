@@ -24,6 +24,7 @@ def infected_users_list():
         user_list[i] = user_list[i].decode()
     return json.dumps(user_list)
 
+
 @app.route('/report_infected_user', methods=['POST'])
 def report_infected_user():
     data = None
@@ -34,16 +35,21 @@ def report_infected_user():
         resp = flask.make_response("Error: could not parse JSON", 400)
         return resp
     
+    logging.info(f"DATA {data}")
     user_id = data['user_id']
     if len(user_id) != config.ID_LENGTH:
-        resp = flask.make_response(f"Error: user_id should have length {config.ID_LENGTH}", 400)
+        msg = f"Error: user_id should have length {config.ID_LENGTH}"
+        logging.info(msg)
+        resp = flask.make_response(msg, 400)
         return resp
     date_str = data['date']
     try:
         # see if we can parse date
         datetime.datetime.strptime(date_str, config.DATE_FORMAT)
     except:
-        resp = flask.make_response(f"Error: date was not expected format of {config.DATE_FORMAT}", 400)
+        msg = f"Error: date was not expected format of {config.DATE_FORMAT}"
+        logging.info(msg)
+        resp = flask.make_response(msg, 400)
         return resp
 
     # insert into redis
@@ -57,7 +63,7 @@ def report_infected_user():
     ins_redis = config.REDIS_CLIENT.rpush(config.REDIS_LATEST_INFECTED_USERS_KEY, json_data)
     if type(ins_redis) != int:
         logging.info(f"failed to insert to redis with response {ins_redis}")
-        resp = flask.make_response("Error: failed to save provided data with msg", 500)
+        resp = flask.make_response("Server Error: failed to save provided data", 500)
         return resp
 
     return flask.make_response("", 200)

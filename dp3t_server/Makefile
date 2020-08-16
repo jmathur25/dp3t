@@ -5,7 +5,10 @@ PYTHON=${VENV_NAME}/bin/python3
 
 DOCKER_USERNAME?=jmather
 CONTAINER_NAME?=dp3t-server
-CONTAINER_VERSION?=1.1
+CONTAINER_VERSION?=1.2
+
+YELLOW_COLOR='\033[1;34m'
+NO_COLOR='\033[0m'
 
 .PHONY: setup
 setup:
@@ -20,14 +23,13 @@ local:
 .PHONY: docker-image
 docker-image:
 	docker build -t ${CONTAINER_NAME} -f Dockerfiles/prod.Dockerfile .
-	docker tag ${CONTAINER_NAME} ${DOCKER_USERNAME}/${CONTAINER_NAME}-${CONTAINER_VERSION}
-	docker push ${DOCKER_USERNAME}/${CONTAINER_NAME}-${CONTAINER_VERSION}
+	docker tag ${CONTAINER_NAME} ${DOCKER_USERNAME}/${CONTAINER_NAME}:${CONTAINER_VERSION}
+	docker push ${DOCKER_USERNAME}/${CONTAINER_NAME}:${CONTAINER_VERSION}
 
 .PHONY: deploy
 deploy:
-	@echo "Make sure you run the following if running for the first time:"
-	@echo "kubectl create namespace dp3t"
-	@echo "Choose prod or dev environments using dropdown on Docker desktop, Kubernetes options"
+	@echo "${YELLOW_COLOR} If you have made changes to the server code, run:"
+	@echo "${YELLOW_COLOR} make docker-image"
 	# deploy
 	kubectl apply -f k8s-deploy
 	# expose with load balancer

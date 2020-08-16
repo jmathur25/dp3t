@@ -22,7 +22,7 @@ local:
 # makes docker image and pushes to public registry
 .PHONY: docker-image
 docker-image:
-	docker build -t ${CONTAINER_NAME} -f Dockerfiles/test.Dockerfile .
+	docker build -t ${CONTAINER_NAME} -f dp3t_server/Dockerfile .
 	docker tag ${CONTAINER_NAME} ${DOCKER_USERNAME}/${CONTAINER_NAME}:${CONTAINER_VERSION}
 	docker push ${DOCKER_USERNAME}/${CONTAINER_NAME}:${CONTAINER_VERSION}
 
@@ -44,7 +44,7 @@ teardown:
 
 .PHONY: test
 test:
-	docker exec -it dp3t_server python -m unittest discover -v -s ./ -p $(FILE)
+	docker exec -it dp3t_server python -m unittest discover -v -s / -p $(FILE)
 
 .PHONY: travis-ci-test
 travis-ci-test:

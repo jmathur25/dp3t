@@ -1,2 +1,2 @@
 [MASTER]
-init-hook='import sys; sys.path.append("./dp3t_server")'
+init-hook='import sys; sys.path.append("./dp3t_server"); sys.path.append("./server_jobs")'

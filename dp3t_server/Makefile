@@ -50,6 +50,6 @@ teardown:
 .PHONY: test
 test: unittest
 
-.PHONY unittest
+.PHONY: unittest
 unittest:
 	${PYTHON} -m unittest discover -v -s ./dp3t_server -p $(FILE)

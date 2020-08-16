@@ -7,11 +7,15 @@ import datetime
 
 import config
 
+
 # runs scripts to maintain database in a separate thread
 def setup_and_run_maintenance():
-    print("setting up maintenance script...")
-    thread = threading.Thread(target=run_maintenance)
-    thread.start()
+    if not config.IS_TEST:
+        print("setting up maintenance script...")
+        thread = threading.Thread(target=run_maintenance)
+        thread.start()
+    else:
+        print("just a test, returning out...")
 
 
 def run_maintenance():

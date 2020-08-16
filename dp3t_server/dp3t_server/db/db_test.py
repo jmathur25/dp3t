@@ -5,11 +5,11 @@ from freezegun import freeze_time
 import fakeredis
 import json
 
-from db import db
 import config
+config.IS_TEST = True
+from db import db
 
 class DbTest(unittest.TestCase):
-
     @freeze_time('2020-06-25 02:05:33')
     @mock.patch("time.sleep")
     def test_sleep_until_utc_midnight(self, time_mock):

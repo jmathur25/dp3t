@@ -7,6 +7,9 @@ DOCKER_USERNAME?=jmather
 CONTAINER_NAME?=dp3t-server
 CONTAINER_VERSION?=1.0
 
+NAMESPACE?=dp3t
+DEPLOYMENT_NAME?=dp3t-server
+
 PURPLE_COLOR='\033[1;34m'
 NO_COLOR='\033[0m'
 
@@ -34,14 +37,15 @@ deploy:
 	# deploy
 	kubectl apply -f k8s-deploy
 	# expose with load balancer
-	kubectl -n dp3t expose deployment dp3t-server --name=dp3t-server-lb --type=LoadBalancer --port 80 --target-port 80
+	kubectl -n ${NAMESPACE} expose deployment ${DEPLOYMENT_NAME} --name=${DEPLOYMENT_NAME}-lb --type=LoadBalancer --port 80 --target-port 80
 	# autoscaling
-	kubectl -n dp3t autoscale deployment dp3t-server --cpu-percent=80 --min=1 --max=5
+	kubectl -n ${NAMESPACE} autoscale deployment ${DEPLOYMENT_NAME} --cpu-percent=80 --min=1 --max=5
 
 .PHONY: teardown
 teardown:
-	kubectl -n dp3t delete -f k8s-deploy
-	kubectl -n dp3t delete service dp3t-server-lb
+	kubectl -n ${NAMESPACE} delete -f k8s-deploy
+	kubectl -n ${NAMESPACE} delete service ${DEPLOYMENT_NAME}-lb
+	kubectl -n ${NAMESPACE} delete hpa ${DEPLOYMENT_NAME}
 
 .PHONY: test
 test:

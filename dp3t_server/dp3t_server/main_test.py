@@ -5,9 +5,13 @@ import json
 import fakeredis
 
 import config
+# replace these so when main imports and runs setup, it does not try to connect to redis
 config.IS_TEST = True
+config.REDIS_CLIENT = fakeredis.FakeStrictRedis()
+
 import main
 from db import db
+
 
 class ServerTest(unittest.TestCase):
     main.app.testing = True

@@ -13,4 +13,5 @@ MAX_DAY_STORAGE = 14
 ID_LENGTH = 64
 DATE_FORMAT = "%Y-%m-%d"
 
+# testing params
 IS_TEST = False

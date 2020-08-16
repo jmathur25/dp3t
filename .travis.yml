@@ -4,7 +4,6 @@ services:
 before_install:
   - cd dp3t_server
   - docker-compose up -d
-  - docker ps -a
 
 script:
   - make test

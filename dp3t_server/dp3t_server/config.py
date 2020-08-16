@@ -1,6 +1,10 @@
 ''' configurations '''
 
+import logging
 import redis
+
+# set log level
+logging.basicConfig(level=logging.INFO)
 
 REDIS_CLIENT = redis.Redis(host='redis', db=0, socket_timeout=5)
 

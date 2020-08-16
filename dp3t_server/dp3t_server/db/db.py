@@ -1,9 +1,13 @@
-# this file runs scripts on the database to keep it up-to-date
+'''
+this file runs scripts on the database to keep it up-to-date
+'''
+
 import threading
 import datetime
 import time
 import json
 import datetime
+import logging
 
 import config
 
@@ -11,11 +15,11 @@ import config
 # runs scripts to maintain database in a separate thread
 def setup_and_run_maintenance():
     if not config.IS_TEST:
-        print("setting up maintenance script...")
+        logging.info("setting up maintenance script...")
         thread = threading.Thread(target=run_maintenance)
         thread.start()
     else:
-        print("just a test, returning out...")
+        logging.info("just a test, returning out...")
 
 
 def run_maintenance():

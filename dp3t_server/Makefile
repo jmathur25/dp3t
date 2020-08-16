@@ -25,7 +25,6 @@ docker-image:
 	# docker build -t ${CONTAINER_NAME} -f dp3t_server/Dockerfile .
 	# docker tag ${CONTAINER_NAME} ${DOCKER_USERNAME}/${CONTAINER_NAME}:${CONTAINER_VERSION}
 	# docker push ${DOCKER_USERNAME}/${CONTAINER_NAME}:${CONTAINER_VERSION}
-	docker-compose build
 
 .PHONY: deploy
 deploy:

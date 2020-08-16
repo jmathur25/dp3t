@@ -57,7 +57,7 @@ def report_infected_user():
     )
     ins_redis = config.REDIS_CLIENT.rpush(config.REDIS_LATEST_INFECTED_USERS_KEY, json_data)
     if type(ins_redis) != int:
-        print(f"failed to insert to redis with response {ins_redis}")
+        logging.info(f"failed to insert to redis with response {ins_redis}")
         resp = flask.make_response("Error: failed to save provided data with msg", 500)
         return resp
 
@@ -65,14 +65,13 @@ def report_infected_user():
 
 
 def setup():
-    if not config.REDIS_CLIENT.ping():
-        logging.fatal("error: could not ping redis")
+    # if not config.REDIS_CLIENT.ping():
+    #     logging.fatal("error: could not ping redis")
     db.setup_and_run_maintenance()
-    print("--- SETUP SUCCESSFULLY ---")
+    logging.info("--- SETUP SUCCESSFULLY ---")
 
 setup()
 
 # run the application.
 if __name__ == "__main__":
-    setup()
     app.run(host="0.0.0.0", port=5000, debug=True, threaded=True)

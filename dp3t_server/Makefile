@@ -1,6 +1,6 @@
 FILE?=*_test.py
 
-VENV_NAME?=.dp3t_server
+VENV_NAME?=./.dp3t_server
 PYTHON_VERSION?=python3.7
 PYTHONPATH=${VENV_NAME}/bin/python
 
@@ -49,19 +49,26 @@ teardown:
 	kubectl -n ${NAMESPACE} delete hpa ${DEPLOYMENT_NAME}
 
 .PHONY: test
-test: unit-test integration-test
+test:
+	make unit-test
+	make integration-test-setup
+	make integration-test
+	make integration-test-teardown
 
 .PHONY: unit-test
 unit-test:
 	${PYTHONPATH} -m unittest discover -v -s ./dp3t_server -p $(FILE)
-
-.PHONY: integration-test
-integration-test: integration-test-setup
-	${PYTHONPATH} -m unittest discover -v -s ./integration_tests -p $(FILE)
-	docker-compose down
 
 .PHONY: integration-test-setup
 integration-test-setup:
 	docker-compose build
 	env IS_TEST=true docker-compose up -d
 	sleep 5
+
+.PHONY: integration-test-teardown
+integration-test-teardown:
+	docker-compose down
+
+.PHONY: integration-test
+integration-test:
+	${PYTHONPATH} -m unittest discover -v -s ./integration_tests -p $(FILE)

@@ -3,6 +3,7 @@ services:
 
 before_install:
   - cd dp3t_server
+  - ls
   - docker-compose up
   - docker ps -a
 

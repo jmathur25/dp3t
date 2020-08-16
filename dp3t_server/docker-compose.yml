@@ -4,7 +4,6 @@ services:
   dp3t_server:
     build:
       context: ./dp3t_server
-      # dockerfile: Dockerfiles/test.Dockerfile
     container_name: dp3t_server
     command: python main.py
     volumes:

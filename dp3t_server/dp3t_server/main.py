@@ -17,12 +17,12 @@ def home():
 
 
 @app.route('/infected_users_list/<year>/<month>/<day>', methods=['GET'])
-def infected_users(year, month, day):
+def infected_users_list(year, month, day):
     key = config.REDIS_DISTRIBUTE_INFECTED_USERS_KEY.format(year, month, day)
     user_list = config.REDIS_CLIENT.lrange(key, 0, -1)
     for i in range(len(user_list)):
         # convert byte string to string
-        user_list[i] = str(user_list[i])
+        user_list[i] = user_list[i].decode()
     return json.dumps(user_list)
 
 @app.route('/report_infected_user', methods=['POST'])

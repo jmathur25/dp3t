@@ -15,8 +15,7 @@ deactivate
 ```
 
 # Deployment
-eksctl create cluster \
---name dp3t-app-prod \
---version 1.17 \
---region us-east-1 \
---fargate
+## Setup
+The GKE is a nice, low-cost way to deploy with Kubernetes. Helpful links:
+- https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app
+

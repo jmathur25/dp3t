@@ -25,13 +25,20 @@ docker-image:
 
 .PHONY: deploy
 deploy:
-	@echo "Make sure you run kubectl create namespace dp3t if running for the first time"
-	@echo "Choose prod or dev environments using Docker desktop"
+	@echo "Make sure you run the following if running for the first time:"
+	@echo "kubectl create namespace dp3t"
+	@echo "Choose prod or dev environments using dropdown on Docker desktop, Kubernetes options"
+	# deploy
 	kubectl apply -f k8s-deploy
+	# expose with load balancer
+	kubectl -n dp3t expose deployment dp3t-server --name=dp3t-server-lb --type=LoadBalancer --port 80 --target-port 80
+	# autoscaling
+	kubectl -n dp3t autoscale deployment dp3t-server --cpu-percent=80 --min=1 --max=5
 
 .PHONY: teardown
 teardown:
-	kubectl delete -f k8s-deploy
+	kubectl -n dp3t delete -f k8s-deploy
+	kubectl -n dp3t delete service dp3t-server-lb
 
 .PHONY: test
 test:

@@ -1,8 +1,8 @@
 FILE?=*_test.py
 
 VENV_NAME?=.dp3t_server
-PYTHON_VERSION?=python3.7.1
-PYTHON=${VENV_NAME}/bin/python
+PYTHON_VERSION?=python3.7
+PYTHONPATH=${VENV_NAME}/bin/python
 
 DOCKER_USERNAME?=jmather
 CONTAINER_NAME?=dp3t-server
@@ -16,8 +16,8 @@ NO_COLOR='\033[0m'
 
 .PHONY: setup
 setup:
-	virtualenv -p ${PYTHON_VERSION} ${VENV_NAME}
-	${PYTHON} -m pip install -r dp3t_server/requirements.txt
+	${PYTHON_VERSION} -m venv ${VENV_NAME}
+	${PYTHONPATH} -m pip install -r dp3t_server/requirements.txt
 
 .PHONY: local
 local:
@@ -53,4 +53,4 @@ test: unittest
 
 .PHONY: unittest
 unittest:
-	${PYTHON} -m unittest discover -v -s ./dp3t_server -p $(FILE)
+	${PYTHONPATH} -m unittest discover -v -s ./dp3t_server -p $(FILE)

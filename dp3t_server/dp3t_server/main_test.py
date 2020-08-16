@@ -68,3 +68,26 @@ class ServerTest(unittest.TestCase):
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.get_data())
         self.assertEqual(set(data), {'a'*64, 'b'*64})
+
+
+    @mock.patch("config.REDIS_CLIENT", fakeredis.FakeStrictRedis())
+    def test_end_to_end(self):
+        post_data = {'user_id': 'a'*64, 'date': '2020-06-25'}
+
+        # post
+        resp = ServerTest.client.post("/report_infected_user", data=json.dumps(post_data))
+        self.assertEqual(resp.status_code, 200)
+
+        # migrate
+        db.migrate_all_infected_user_reports()
+
+        # get
+        resp = ServerTest.client.get("/infected_users_list/2020/6/24")
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(json.loads(resp.get_data()), [])
+
+        resp = ServerTest.client.get("/infected_users_list/2020/6/25")
+        self.assertEqual(resp.status_code, 200)
+        data = json.loads(resp.get_data())
+        self.assertEqual(set(data), {'a'*64})
+

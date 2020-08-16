@@ -48,5 +48,8 @@ teardown:
 	kubectl -n ${NAMESPACE} delete hpa ${DEPLOYMENT_NAME}
 
 .PHONY: test
-test:
+test: unittest
+
+.PHONY unittest
+unittest:
 	${PYTHON} -m unittest discover -v -s ./dp3t_server -p $(FILE)

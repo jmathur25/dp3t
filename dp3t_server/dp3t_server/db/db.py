@@ -9,7 +9,7 @@ import config
 
 # runs scripts to maintain database in a separate thread
 def setup_and_run_maintenance():
-    thread = threading.Thread(target = run_maintenance)
+    thread = threading.Thread(target=run_maintenance)
     thread.start()
     thread.join()
     print("thread finished... this should never happen")

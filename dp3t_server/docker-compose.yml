@@ -4,6 +4,7 @@ services:
   dp3t_server:
     build:
       context: ./dp3t_server
+      dockerfile: local.Dockerfile
     image: jmather/dp3t_server:1.2
     container_name: dp3t_server
     command: python main.py

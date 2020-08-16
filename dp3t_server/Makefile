@@ -22,9 +22,9 @@ local:
 # makes docker image and pushes to public registry
 .PHONY: docker-image
 docker-image:
-	# docker build -t ${CONTAINER_NAME} -f dp3t_server/Dockerfile .
-	# docker tag ${CONTAINER_NAME} ${DOCKER_USERNAME}/${CONTAINER_NAME}:${CONTAINER_VERSION}
-	# docker push ${DOCKER_USERNAME}/${CONTAINER_NAME}:${CONTAINER_VERSION}
+	docker build -t ${CONTAINER_NAME} -f dp3t_server/prod.Dockerfile .
+	docker tag ${CONTAINER_NAME} ${DOCKER_USERNAME}/${CONTAINER_NAME}:${CONTAINER_VERSION}
+	docker push ${DOCKER_USERNAME}/${CONTAINER_NAME}:${CONTAINER_VERSION}
 
 .PHONY: deploy
 deploy:

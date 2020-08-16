@@ -1,13 +1,9 @@
 matrix:
   include:
-    - language: python
-    python:
-      - "3.7.3"
-    
-    before_install: cd dp3t_server
-    install:
-      - make setup
-    
-    script:
-      - make test
+      before_install: cd dp3t_server
+      install:
+        - make setup
+      
+      script:
+        - make test
   

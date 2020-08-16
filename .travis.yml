@@ -2,9 +2,9 @@ services:
   - docker
 
 before_install:
-  cd dp3t_server
-  docker-compose up
-  docker ps -a
+  - cd dp3t_server
+  - docker-compose up
+  - docker ps -a
 
 script:
   - make test

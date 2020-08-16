@@ -7,7 +7,7 @@ DOCKER_USERNAME?=jmather
 CONTAINER_NAME?=dp3t-server
 CONTAINER_VERSION?=1.2
 
-YELLOW_COLOR='\033[1;34m'
+PURPLE_COLOR='\033[1;34m'
 NO_COLOR='\033[0m'
 
 .PHONY: setup
@@ -22,14 +22,14 @@ local:
 # makes docker image and pushes to public registry
 .PHONY: docker-image
 docker-image:
-	docker build -t ${CONTAINER_NAME} -f Dockerfiles/prod.Dockerfile .
+	docker build -t ${CONTAINER_NAME} -f Dockerfiles/test.Dockerfile .
 	docker tag ${CONTAINER_NAME} ${DOCKER_USERNAME}/${CONTAINER_NAME}:${CONTAINER_VERSION}
 	docker push ${DOCKER_USERNAME}/${CONTAINER_NAME}:${CONTAINER_VERSION}
 
 .PHONY: deploy
 deploy:
-	@echo "${YELLOW_COLOR} If you have made changes to the server code, run:"
-	@echo "${YELLOW_COLOR} make docker-image"
+	@echo "${PURPLE_COLOR} If you have made changes to the server code, run:"
+	@echo "${PURPLE_COLOR} make docker-image${NO_COLOR}"
 	# deploy
 	kubectl apply -f k8s-deploy
 	# expose with load balancer

@@ -10,5 +10,5 @@ REDIS_LATEST_INFECTED_USERS_KEY = "latest_infected_users"
 
 # other constants
 MAX_DAY_STORAGE = 14
-ID_LENGTH = 26
+ID_LENGTH = 64
 DATE_FORMAT = "%Y-%m-%d"

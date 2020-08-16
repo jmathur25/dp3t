@@ -7,7 +7,7 @@ services:
       dockerfile: local.Dockerfile
     image: jmather/dp3t_server:1.2
     container_name: dp3t_server
-    command: python main.py
+    command: bash -c "bash prestart.sh && python main.py"
     volumes:
      - ./dp3t_server:/app
     ports:

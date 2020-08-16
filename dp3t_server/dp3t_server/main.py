@@ -65,13 +65,14 @@ def report_infected_user():
 
 
 def setup():
-    # if not config.REDIS_CLIENT.ping():
-    #     logging.fatal("error: could not ping redis")
-    db.setup_and_run_maintenance()
-    logging.info("--- SETUP SUCCESSFULLY ---")
+    if not config.REDIS_CLIENT.ping():
+        logging.fatal("error: could not ping redis")
+    print("--- SETUP SUCCESSFULLY ---")
 
 setup()
 
+
 # run the application.
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     app.run(host="0.0.0.0", port=5000, debug=True, threaded=True)

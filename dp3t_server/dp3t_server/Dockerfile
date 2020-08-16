@@ -6,7 +6,7 @@ ADD requirements.txt /build/requirements.txt
 RUN pip install -r /build/requirements.txt
 
 # Copy our code from the current folder to /app inside the container
-ADD dp3t_server /app
+ADD . /app
 
 # Make port 80 available for links and/or publish
 EXPOSE 80

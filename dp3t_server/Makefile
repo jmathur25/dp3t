@@ -49,7 +49,7 @@ teardown:
 	kubectl -n ${NAMESPACE} delete hpa ${DEPLOYMENT_NAME}
 
 .PHONY: test
-test: unittest integration-test
+test: unit-test integration-test
 
 .PHONY: unit-test
 unit-test:

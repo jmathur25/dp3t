@@ -16,7 +16,7 @@ spec:
         app: dp3t-server
     spec:
       containers:
-      - image: jmather/dp3t-server:1.2
+      - image: jmather/dp3t-server:1.0
         name: dp3t-server
         ports:
         - containerPort: 80

@@ -17,6 +17,7 @@ setup:
 
 .PHONY: local
 local:
+	docker-compose build
 	docker-compose up
 
 # makes docker image and pushes to public registry
@@ -45,7 +46,3 @@ teardown:
 .PHONY: test
 test:
 	docker exec -it dp3t_server python -m unittest discover -v -s / -p $(FILE)
-
-.PHONY: travis-ci-test
-travis-ci-test:
-	python -m unittest discover -v -s ./dp3t_server -p $(FILE)

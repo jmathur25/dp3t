@@ -1,7 +1,7 @@
 FILE?=*_test.py
 
 VENV_NAME?=.dp3t_server
-PYTHON=${VENV_NAME}/bin/python
+PYTHON=${VENV_NAME}/bin/python3
 
 DOCKER_USERNAME?=jmather
 CONTAINER_NAME?=dp3t-server
@@ -15,7 +15,7 @@ NO_COLOR='\033[0m'
 
 .PHONY: setup
 setup:
-	virtualenv ${VENV_NAME}
+	python3 -m venv ${VENV_NAME}
 	${PYTHON} -m pip install -r dp3t_server/requirements.txt
 
 .PHONY: local

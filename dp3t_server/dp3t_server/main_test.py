@@ -3,6 +3,7 @@ from unittest import mock
 import datetime
 import json
 import fakeredis
+from freezegun import freeze_time
 
 import config
 # replace these so when main imports and runs setup, it does not try to connect to redis
@@ -17,6 +18,7 @@ class ServerTest(unittest.TestCase):
     main.app.testing = True
     client = main.app.test_client()
 
+    @freeze_time('2020-06-25 02:05:33')
     @mock.patch("config.REDIS_CLIENT", fakeredis.FakeStrictRedis())
     def test_report_infected_user(self):
         post_data = {'user_id': 'a'*64, 'date': '2020-06-25'}
@@ -32,6 +34,7 @@ class ServerTest(unittest.TestCase):
         self.assertEqual(infected_users, [post_data])
 
     
+    @freeze_time('2020-06-25 02:05:33')
     @mock.patch("config.REDIS_CLIENT", fakeredis.FakeStrictRedis())
     def test_infected_users_list(self):
         fakeuser1 = {
@@ -59,7 +62,8 @@ class ServerTest(unittest.TestCase):
         data = json.loads(resp.get_data())
         self.assertEqual(set(data), set(user_string_list))
 
-
+    
+    @freeze_time('2020-06-25 02:05:33')
     @mock.patch("config.REDIS_CLIENT", fakeredis.FakeStrictRedis())
     def test_end_to_end(self):
         post_data = {'user_id': 'a'*64, 'date': '2020-06-25'}

@@ -6,7 +6,7 @@ PYTHONPATH=${VENV_NAME}/bin/python
 
 DOCKER_USERNAME?=jmather
 CONTAINER_NAME?=dp3t-server
-CONTAINER_VERSION?=1.0
+IMAGE_VERSION?=1.4
 
 NAMESPACE?=dp3t
 DEPLOYMENT_NAME?=dp3t-server
@@ -28,8 +28,8 @@ local:
 .PHONY: docker-image
 docker-image:
 	docker build -t ${CONTAINER_NAME} -f dp3t_server/prod.Dockerfile .
-	docker tag ${CONTAINER_NAME} ${DOCKER_USERNAME}/${CONTAINER_NAME}:${CONTAINER_VERSION}
-	docker push ${DOCKER_USERNAME}/${CONTAINER_NAME}:${CONTAINER_VERSION}
+	docker tag ${CONTAINER_NAME} ${DOCKER_USERNAME}/${CONTAINER_NAME}:${IMAGE_VERSION}
+	docker push ${DOCKER_USERNAME}/${CONTAINER_NAME}:${IMAGE_VERSION}
 
 .PHONY: deploy
 deploy:
@@ -42,8 +42,8 @@ deploy:
 	# autoscaling
 	kubectl -n ${NAMESPACE} autoscale deployment ${DEPLOYMENT_NAME} --cpu-percent=80 --min=1 --max=5
 
-.PHONY: teardown
-teardown:
+.PHONY: deploy-teardown
+deploy-teardown:
 	kubectl -n ${NAMESPACE} delete -f k8s-deploy
 	kubectl -n ${NAMESPACE} delete service ${DEPLOYMENT_NAME}-lb
 	kubectl -n ${NAMESPACE} delete hpa ${DEPLOYMENT_NAME}

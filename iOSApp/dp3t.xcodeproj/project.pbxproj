@@ -17,6 +17,7 @@
 		E7751D1B24E3836F00AA7AC3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7751D1A24E3836F00AA7AC3 /* ViewController.swift */; };
 		E7751D2124E3899300AA7AC3 /* CoreBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7751D2024E3899300AA7AC3 /* CoreBluetoothManager.swift */; };
 		E7751D2324E38A0800AA7AC3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7751D2224E38A0800AA7AC3 /* Constants.swift */; };
+		E7DB341124E9EA9F00B26A56 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DB341024E9EA9F00B26A56 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		E7751D2024E3899300AA7AC3 /* CoreBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothManager.swift; sourceTree = "<group>"; };
 		E7751D2224E38A0800AA7AC3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E7751D2424E38EB200AA7AC3 /* dp3t.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dp3t.entitlements; sourceTree = "<group>"; };
+		E7DB341024E9EA9F00B26A56 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,13 +83,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B9BCA2335E0FACBB0E8E1C78 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		E7751CDE24E3834C00AA7AC3 = {
 			isa = PBXGroup;
 			children = (
@@ -95,7 +90,6 @@
 				E7751D0024E3834D00AA7AC3 /* dp3tTests */,
 				E7751D0B24E3834D00AA7AC3 /* dp3tUITests */,
 				E7751CE824E3834C00AA7AC3 /* Products */,
-				B9BCA2335E0FACBB0E8E1C78 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -118,6 +112,7 @@
 				E7751D1A24E3836F00AA7AC3 /* ViewController.swift */,
 				E7751D2224E38A0800AA7AC3 /* Constants.swift */,
 				E7751D2024E3899300AA7AC3 /* CoreBluetoothManager.swift */,
+				E7DB341024E9EA9F00B26A56 /* Utils.swift */,
 				E7751CEA24E3834C00AA7AC3 /* AppDelegate.swift */,
 				E7751CEC24E3834C00AA7AC3 /* SceneDelegate.swift */,
 				E7751CF824E3834D00AA7AC3 /* Info.plist */,
@@ -168,7 +163,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E7751D1424E3834D00AA7AC3 /* Build configuration list for PBXNativeTarget "dp3tTests" */;
 			buildPhases = (
-				E0060D4F256931D101FF1398 /* [CP] Check Pods Manifest.lock */,
 				E7751CF924E3834D00AA7AC3 /* Sources */,
 				E7751CFA24E3834D00AA7AC3 /* Frameworks */,
 				E7751CFB24E3834D00AA7AC3 /* Resources */,
@@ -187,7 +181,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E7751D1724E3834D00AA7AC3 /* Build configuration list for PBXNativeTarget "dp3tUITests" */;
 			buildPhases = (
-				B35E402C6FED4E367B42286C /* [CP] Check Pods Manifest.lock */,
 				E7751D0424E3834D00AA7AC3 /* Sources */,
 				E7751D0524E3834D00AA7AC3 /* Frameworks */,
 				E7751D0624E3834D00AA7AC3 /* Resources */,
@@ -272,53 +265,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		B35E402C6FED4E367B42286C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-dp3t-dp3tUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E0060D4F256931D101FF1398 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-dp3tTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		E7751CE324E3834C00AA7AC3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -329,6 +275,7 @@
 				E7751CEB24E3834C00AA7AC3 /* AppDelegate.swift in Sources */,
 				E7751D2124E3899300AA7AC3 /* CoreBluetoothManager.swift in Sources */,
 				E7751CED24E3834C00AA7AC3 /* SceneDelegate.swift in Sources */,
+				E7DB341124E9EA9F00B26A56 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

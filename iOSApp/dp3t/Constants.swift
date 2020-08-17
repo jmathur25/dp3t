@@ -18,4 +18,5 @@ enum ConstantsString: String {
 enum ConstantsInt: Int {
     // expire devices met more than 14 days ago
     case EXPIRE_DAYS = 14
+    case EPH_ID_SIZE = 26
 }

@@ -14,8 +14,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        bluetoothManager = CoreBluetoothManager()
+        
+        bluetoothManager = CoreBluetoothManager(dateManager: DateHandler() as DateManager)
         
         // generate this randomly, remove dashes for conciseness
         // can only do 26 bytes

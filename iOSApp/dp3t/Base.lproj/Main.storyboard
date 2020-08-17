@@ -10,12 +10,12 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Test" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="dp3t" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What is your Authorization Code?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBq-fr-t5V">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What is your Authorization Code? " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBq-fr-t5V">
                                 <rect key="frame" x="5" y="342.5" width="404" height="24"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <nil key="textColor"/>
@@ -52,10 +52,16 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u0F-pS-GJ2">
+                                <rect key="frame" x="96.5" y="114" width="221" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Get Latest Infected Users"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="oS2-0I-a3j" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4Fi-qJ-VSQ"/>
+                            <constraint firstItem="u0F-pS-GJ2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="96w-7T-Mhx"/>
                             <constraint firstAttribute="trailing" secondItem="oS2-0I-a3j" secondAttribute="trailing" constant="5" id="D9T-45-i93"/>
                             <constraint firstItem="eBq-fr-t5V" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="KzL-sY-7cO"/>
                             <constraint firstItem="Zcb-c4-vVz" firstAttribute="top" secondItem="NfC-eR-GU9" secondAttribute="bottom" constant="10" id="L5f-3p-efF"/>
@@ -65,6 +71,7 @@
                             <constraint firstItem="oS2-0I-a3j" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="Rr4-Qm-t0X"/>
                             <constraint firstItem="NfC-eR-GU9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="akc-qL-65K"/>
                             <constraint firstItem="HQy-u6-ZLi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="e31-Db-qaY"/>
+                            <constraint firstItem="u0F-pS-GJ2" firstAttribute="top" secondItem="oS2-0I-a3j" secondAttribute="bottom" constant="20" id="fjk-LZ-C3H"/>
                             <constraint firstItem="NfC-eR-GU9" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="hNf-Kp-S4s"/>
                             <constraint firstItem="NfC-eR-GU9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="jY3-k6-RyK"/>
                             <constraint firstItem="eBq-fr-t5V" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lme-Cf-wQX"/>
@@ -81,6 +88,7 @@
                         <outlet property="infectionDayButton" destination="Zcb-c4-vVz" id="V0n-wL-daw"/>
                         <outlet property="matchesLabel" destination="oS2-0I-a3j" id="PKf-CV-jOm"/>
                         <outlet property="submitButton" destination="HQy-u6-ZLi" id="qVG-r5-vDZ"/>
+                        <outlet property="syncInfectedUsers" destination="u0F-pS-GJ2" id="YXc-MX-ijL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

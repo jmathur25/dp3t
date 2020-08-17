@@ -30,7 +30,6 @@ class DP3T {
         
         updateSKtsAndEphIDs()
         updateCurrentEphID()
-        getInfectedUsers()
     }
     
     static func resetDefaults() {
@@ -67,6 +66,16 @@ class DP3T {
     
     func getMatches() -> Int {
         return UserDefaults.standard.integer(forKey: "matches")
+    }
+    // recreate a new SKt when the old one has been reported
+    func recreateSkt() {
+        // wipe data related to old SKT
+        UserDefaults.standard.set([], forKey: "storedSKts")
+        UserDefaults.standard.set("", forKey: "currentSKt")
+        UserDefaults.standard.set("", forKey: "storedDay")
+        // create new SKT and Eph IDs
+        updateSKtsAndEphIDs()
+        updateCurrentEphID()
     }
     
     func getStartOfNextDay() -> Date {
@@ -124,8 +133,8 @@ class DP3T {
         print("Current SKt")
         print(getCurrentSKt())
 
-        let timer = Timer(fireAt: getStartOfNextDay(), interval: 0, target: self, selector: #selector(updateSKtsAndEphIDs), userInfo: nil, repeats: false)
-        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
+//        let timer = Timer(fireAt: getStartOfNextDay(), interval: 0, target: self, selector: #selector(updateSKtsAndEphIDs), userInfo: nil, repeats: false)
+//        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
     }
     
     @objc private func updateCurrentEphID() {
@@ -146,15 +155,15 @@ class DP3T {
         print(getCurrentEphID())
         
         // run timer
-        let timer = Timer(fireAt: getNextEpoch(), interval: 0, target: self, selector: #selector(updateCurrentEphID), userInfo: nil, repeats: false)
-        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
+//        let timer = Timer(fireAt: getNextEpoch(), interval: 0, target: self, selector: #selector(updateCurrentEphID), userInfo: nil, repeats: false)
+//        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
     }
     
     
     private func SKtGeneration(previousSKt: String?) -> String {
         var previousSKt = previousSKt
         
-        if previousSKt == nil {
+        if previousSKt == nil || previousSKt == "" {
             previousSKt = UUID().uuidString
         }
         
@@ -166,8 +175,8 @@ class DP3T {
     
     private func ephIDGeneration(SKt: String, broadcastKey: String, epochLength: Int) -> [String] {
         var PRF = try! HMAC(key: SKt, variant: .sha256).authenticate(broadcastKey.bytes).toHexString()
-        let index = PRF.index(PRF.startIndex, offsetBy: 50)
-        PRF = String(PRF[..<index])
+        let index = PRF.index(PRF.endIndex, offsetBy: -ConstantsInt.EPH_ID_SIZE.rawValue + 2)
+        PRF = String(PRF[index..<PRF.endIndex])
         
         var ephIDs = [String]()
         for i in 0..<(60 * 24 / epochLength) {
@@ -181,7 +190,7 @@ class DP3T {
         return ephIDs.shuffled()
     }
     
-    private func getInfectedUsers() {
+    public func getInfectedUsers() {
         let session = URLSession.shared
         let url = URL(string: "http://192.168.1.8:5000/infected_users_list")!
         var request = URLRequest(url: url)
@@ -203,9 +212,11 @@ class DP3T {
     private func ephIDReconstruction(json: [Any]) {
         var matches = 0
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.dateFormat = ConstantsString.DATE_STR.rawValue
         
+        print("all recorded ids: \(bluetoothManager?.getEncounterKnownDict())")
         for data in json {
+            print(data)
              if let str = data as? String {
                 let dict = str.toDictionary()
                 var user_SKt = dict["user_id"] as! String
@@ -219,7 +230,10 @@ class DP3T {
                     let userEphIDs = ephIDGeneration(SKt: user_SKt, broadcastKey: Config.broadcastKey, epochLength: Config.epochLength)
 
                     let recordedEphIDs = getRecordedEphIDs(day: newDate)
-                    let match = ephIDMatches(userEphIDs: userEphIDs, recordedEphIDs: recordedEphIDs)
+                    if recordedEphIDs == nil {
+                        continue
+                    }
+                    let match = ephIDMatches(userEphIDs: userEphIDs, recordedEphIDs: recordedEphIDs!)
                     if match {
                         matches += 1
                         break
@@ -234,14 +248,14 @@ class DP3T {
         displayMatches()
     }
     
-    private func getRecordedEphIDs(day: Date) -> Set<String> {
-        var set: Set<String> = ["aff85a8aeefe22fa34279f2d0360fe8c8355ecc5f2374d9dce05"]
-        return set
+    private func getRecordedEphIDs(day: Date) -> Set<String>? {
+        return bluetoothManager?.getKnownEncounteredEphIdsOnDay(date: day)
     }
     
     private func ephIDMatches(userEphIDs: [String], recordedEphIDs: Set<String>) -> Bool {
         for ephID in userEphIDs {
             if recordedEphIDs.contains(ephID) {
+                print("matched \(ephID)")
                 return true
             }
         }
@@ -269,7 +283,11 @@ class DP3T {
         content.sound = UNNotificationSound.default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request)
+        
+        if matches != 0 {
+            // only send a push if there are some matches
+            UNUserNotificationCenter.current().add(request)
+        }
     }
     
 }

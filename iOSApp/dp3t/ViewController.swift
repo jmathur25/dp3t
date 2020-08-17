@@ -12,18 +12,18 @@ import CryptoSwift
 import Foundation
 
 class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
-
+    
     @IBOutlet weak var matchesLabel: UILabel!
     @IBOutlet weak var authorizationTextField: UITextField!
     @IBOutlet weak var infectionDayButton: UIButton!
     @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var syncInfectedUsers: UIButton!
     
     var infectionDayToolbar = UIToolbar()
     var infectionDayPicker  = UIPickerView()
     var infectionDays: [String] = [String]()
     
     var dp3t: DP3T?
-    var bluetoothManager: CoreBluetoothManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +33,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         infectionDayButton.addTarget(self, action: #selector(showInfectionPicker), for: .touchUpInside)
         submitButton.addTarget(self, action: #selector(submit), for: .touchUpInside)
         submitButton.layer.cornerRadius = 7.5
+        syncInfectedUsers.addTarget(self, action: #selector(getInfectedUsers), for: .touchUpInside)
         
         infectionDays = ["Today", "1 Day Ago"]
         for day in 2..<Config.infectionPeriod {
@@ -40,8 +41,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         }
         
         // setup dp3t
-        DP3T.resetDefaults()
+        // DP3T.resetDefaults()
         dp3t = DP3T(date: Date(), viewController: self)
+        dp3t?.getInfectedUsers()
     }
     
     func sendSKt(index: Int) {
@@ -108,6 +110,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
                 }
                 index = Config.infectionPeriod - 1 - index
                 self.sendSKt(index: index)
+                self.dp3t?.recreateSkt()
             }
         })
         let pulse = CASpringAnimation(keyPath: "transform.scale")
@@ -119,6 +122,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         pulse.damping = 0.8
         sender.layer.add(pulse, forKey: "pulse")
         CATransaction.commit()
+    }
+    
+    @objc func getInfectedUsers(_ sender: UIButton) {
+        dp3t?.getInfectedUsers()
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

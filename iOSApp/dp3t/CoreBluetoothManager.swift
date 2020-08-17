@@ -65,6 +65,7 @@ extension CoreBluetoothManager: CBPeripheralManagerDelegate {
                 CBAdvertisementDataServiceUUIDsKey: [uuid]
             ]
             advertisingData[CBAdvertisementDataLocalNameKey] = name
+            print("advertising my name: \(name)")
             self.peripheralManager?.startAdvertising(advertisingData)
         } else {
             #warning("handle other states")
@@ -102,7 +103,7 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
     // return a set of known encountered ids on a day
     func getKnownEncounteredEphIdsOnDay(date: Date) -> Set<String>? {
         let deviceEncounterKnown = getEncounterKnownDict()
-        let time = dateToCoarseTime(date: date)
+        let time = dateToCoarseUTCTime(date: date)
         let dayEncounters = deviceEncounterKnown[time]
         if dayEncounters == nil {
             return nil
@@ -116,7 +117,7 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
     // return the number of unknown encountered ids on a day
     func getUnknownEncounteredEphIdsOnDay(date: Date) -> Int {
         let deviceEncounterUnknown = getEncounterUnKnownDict()
-        let time = dateToCoarseTime(date: date)
+        let time = dateToCoarseUTCTime(date: date)
         let dayEncounters = deviceEncounterUnknown[time]
         if dayEncounters == nil {
             return 0
@@ -153,8 +154,9 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
         var deviceEncounterUnKnown = getEncounterUnKnownDict()
         let ephID = advertisementData[CBAdvertisementDataLocalNameKey] as? String
         if ephID != nil {
-            print("advertising data id: " + ephID!)
-            let time = dateToCoarseTime(date: dateHandler.currentDate())
+            print("got advertising data id: " + ephID!)
+            let time = dateToCoarseUTCTime(date: dateHandler.currentDate())
+            print("TIME: \(time)")
             if deviceEncounterKnown[time] != nil {
                 // add to existing list
                 var existingEncounters = deviceEncounterKnown[time]
@@ -167,8 +169,8 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
                 print("created new list")
             }
         } else {
-            print("advertising data id: nil")
-            let time = dateToCoarseTime(date: dateHandler.currentDate())
+            print("got advertising data id: nil")
+            let time = dateToCoarseUTCTime(date: dateHandler.currentDate())
             if deviceEncounterUnKnown[time] != nil {
                 // add to existing list
                 let existingEncounters = deviceEncounterUnKnown[time]
@@ -219,9 +221,10 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
     }
 }
 
-// turns date into a coarse time YYYY-MM-DD
-func dateToCoarseTime(date: Date) -> String {
+// turns date into a coarse UTC time YYYY-MM-DD
+func dateToCoarseUTCTime(date: Date) -> String {
     let formatter = DateFormatter()
     formatter.dateFormat = ConstantsString.DATE_STR.rawValue
+    formatter.timeZone = TimeZone(identifier: "UTC")
     return formatter.string(from: date)
 }

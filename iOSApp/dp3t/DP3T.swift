@@ -25,7 +25,7 @@ class DP3T {
         self.calendar = Calendar.current
         self.calendar.timeZone = TimeZone(abbreviation: "UTC")!
         self.viewController = viewController
-        self.bluetoothManager = CoreBluetoothManager(dateManager: DateHandler())
+        self.bluetoothManager = CoreBluetoothManager()
         self.bluetoothManager?.startScanning()
         
         updateSKtsAndEphIDs()
@@ -92,9 +92,9 @@ class DP3T {
         let seconds = calendar.component(.second, from: currentDate)
         var currentEpoch = Double(hours * 60 + minutes)
         currentEpoch += Double(seconds) / 60
-        currentEpoch /= Double(Config.epochLength)
+        currentEpoch /= Double(Config.EPOCHLENGTH)
 
-        let secondsToNext = (floor(currentEpoch + 1) - currentEpoch) * Double(Config.epochLength) * 60
+        let secondsToNext = (floor(currentEpoch + 1) - currentEpoch) * Double(Config.EPOCHLENGTH) * 60
         let nextDate = currentDate.addingTimeInterval(secondsToNext)
         let nextHours = calendar.component(.hour, from: nextDate)
         let nextMinutes = calendar.component(.minute, from: nextDate)
@@ -109,27 +109,32 @@ class DP3T {
 
         if storedDay == 0 {
             storedDay = currentDay - 1
+        } else if storedDay == currentDay {
+            // return out because current day Skt and EphId have been made
+            return
         }
         
+        print("STORED DAY \(storedDay), CURRENT DAY \(currentDay)")
+        // go from last stored day + 1 to current day
+        // ex: user last opened on the 100th day and today is 105 (from Jan 1 2001)
+        // this would go from 101 to 105 and update Skt
         for day in storedDay + 1..<currentDay + 1 {
             currentSKt = SKtGeneration(previousSKt: currentSKt)
             var dayString = Date(timeIntervalSinceReferenceDate: Double(day * 24 * 60 * 60)).description
             dayString = String(dayString.split(separator: " ")[0])
 
             storedSKts.append([currentSKt, dayString])
-            if storedSKts.count > Config.infectionPeriod {
+            if storedSKts.count > Config.INFECTIONPERIOD {
                 storedSKts.removeFirst()
             }
-
-            if day == currentDay {
-                let storedEphIDs = ephIDGeneration(SKt: currentSKt, broadcastKey: Config.broadcastKey, epochLength: Config.epochLength)
-                
-                UserDefaults.standard.set(storedSKts, forKey: "storedSKts")
-                UserDefaults.standard.set(storedEphIDs, forKey: "storedEphIDs")
-                UserDefaults.standard.set(currentDay, forKey: "storedDay")
-                UserDefaults.standard.set(currentSKt, forKey: "currentSKt")
-            }
         }
+        
+        // now generate today eph ids
+        let storedEphIDs = ephIDGeneration(SKt: currentSKt, broadcastKey: Config.BROADCASTKEY, epochLength: Config.EPOCHLENGTH)
+        UserDefaults.standard.set(storedSKts, forKey: "storedSKts")
+        UserDefaults.standard.set(storedEphIDs, forKey: "storedEphIDs")
+        UserDefaults.standard.set(currentDay, forKey: "storedDay")
+        UserDefaults.standard.set(currentSKt, forKey: "currentSKt")
         
         print("Current SKt")
         print(getCurrentSKt())
@@ -144,7 +149,7 @@ class DP3T {
         let hours = calendar.component(.hour, from: date)
         let minutes = calendar.component(.minute, from: date)
         
-        let currentEpoch = (hours * 60 + minutes) / Config.epochLength
+        let currentEpoch = (hours * 60 + minutes) / Config.EPOCHLENGTH
         if currentEpoch < storedEphIDs.count {
             let currentEphID = storedEphIDs[currentEpoch]
             UserDefaults.standard.set(currentEphID, forKey: "currentEphID")
@@ -176,7 +181,7 @@ class DP3T {
     
     private func ephIDGeneration(SKt: String, broadcastKey: String, epochLength: Int) -> [String] {
         var PRF = try! HMAC(key: SKt, variant: .sha256).authenticate(broadcastKey.bytes).toHexString()
-        let index = PRF.index(PRF.endIndex, offsetBy: -ConstantsInt.EPH_ID_SIZE.rawValue + 2)
+        let index = PRF.index(PRF.endIndex, offsetBy: -Config.EPH_ID_SIZE + 2)
         PRF = String(PRF[index..<PRF.endIndex])
         
         var ephIDs = [String]()
@@ -213,7 +218,7 @@ class DP3T {
     private func ephIDReconstruction(json: [Any]) {
         var matches = 0
         let formatter = DateFormatter()
-        formatter.dateFormat = ConstantsString.DATE_STR.rawValue
+        formatter.dateFormat = Config.DATE_STR
         
         print("all recorded ids: \(bluetoothManager?.getEncounterKnownDict())")
         for data in json {
@@ -228,7 +233,7 @@ class DP3T {
                 
                 for day in 0..<diffInDays! + 1 {
                     let newDate = calendar.date(byAdding: .day, value: day, to: formattedDate)!
-                    let userEphIDs = ephIDGeneration(SKt: user_SKt, broadcastKey: Config.broadcastKey, epochLength: Config.epochLength)
+                    let userEphIDs = ephIDGeneration(SKt: user_SKt, broadcastKey: Config.BROADCASTKEY, epochLength: Config.EPOCHLENGTH)
 
                     let recordedEphIDs = getRecordedEphIDs(day: newDate)
                     if recordedEphIDs == nil {

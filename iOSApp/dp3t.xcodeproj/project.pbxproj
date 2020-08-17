@@ -21,7 +21,6 @@
 		E7751D0D24E3834D00AA7AC3 /* dp3tUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7751D0C24E3834D00AA7AC3 /* dp3tUITests.swift */; };
 		E7751D1B24E3836F00AA7AC3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7751D1A24E3836F00AA7AC3 /* ViewController.swift */; };
 		E7751D2124E3899300AA7AC3 /* CoreBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7751D2024E3899300AA7AC3 /* CoreBluetoothManager.swift */; };
-		E7751D2324E38A0800AA7AC3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7751D2224E38A0800AA7AC3 /* Constants.swift */; };
 		E7DB341124E9EA9F00B26A56 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DB341024E9EA9F00B26A56 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
@@ -69,7 +68,6 @@
 		E7751D0E24E3834D00AA7AC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7751D1A24E3836F00AA7AC3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E7751D2024E3899300AA7AC3 /* CoreBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothManager.swift; sourceTree = "<group>"; };
-		E7751D2224E38A0800AA7AC3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E7751D2424E38EB200AA7AC3 /* dp3t.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dp3t.entitlements; sourceTree = "<group>"; };
 		E7DB341024E9EA9F00B26A56 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -156,7 +154,6 @@
 				E7751D1A24E3836F00AA7AC3 /* ViewController.swift */,
 				4C35455424EA2B760027484C /* DP3T.swift */,
 				4C35455624EA2BA30027484C /* Config.swift */,
-				E7751D2224E38A0800AA7AC3 /* Constants.swift */,
 				E7751D2024E3899300AA7AC3 /* CoreBluetoothManager.swift */,
 				E7DB341024E9EA9F00B26A56 /* Utils.swift */,
 				E7751CEA24E3834C00AA7AC3 /* AppDelegate.swift */,
@@ -424,7 +421,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7751D2324E38A0800AA7AC3 /* Constants.swift in Sources */,
 				E7751D1B24E3836F00AA7AC3 /* ViewController.swift in Sources */,
 				E7751CEB24E3834C00AA7AC3 /* AppDelegate.swift in Sources */,
 				E7751D2124E3899300AA7AC3 /* CoreBluetoothManager.swift in Sources */,

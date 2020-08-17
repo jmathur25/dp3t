@@ -25,7 +25,8 @@ class CoreBluetoothManager: NSObject, BluetoothManager {
     // MARK: - Public properties
     weak var delegate: BluetoothManagerDelegate?
     
-    init(dateManager: DateManager) {
+    // initialize class with optional date handler. in testing, we use the mock class.
+    init(dateManager: DateManager = DateHandler() as DateManager) {
         dateHandler = dateManager
     }
     
@@ -60,7 +61,7 @@ extension CoreBluetoothManager: CBPeripheralManagerDelegate {
             if peripheral.isAdvertising {
                 peripheral.stopAdvertising()
             }
-            let uuid = CBUUID(string: ConstantsString.SERVICE_UUID.rawValue)
+            let uuid = CBUUID(string: Config.BROADCAST_UUID)
             var advertisingData: [String : Any] = [
                 CBAdvertisementDataServiceUUIDsKey: [uuid]
             ]
@@ -137,7 +138,7 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
             if central.isScanning {
                 central.stopScan()
             }
-            let uuid = CBUUID(string: ConstantsString.SERVICE_UUID.rawValue)
+            let uuid = CBUUID(string: Config.BROADCAST_UUID)
             central.scanForPeripherals(withServices: [uuid])
         } else {
             #warning("Error handling")
@@ -187,10 +188,10 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
     func checkAndExpireOldKeys() {
         var deviceEncounterKnown = getEncounterKnownDict()
         var deviceEncounterUnKnown = getEncounterUnKnownDict()
-        let daySub = DateComponents(day: -ConstantsInt.EXPIRE_DAYS.rawValue)
+        let daySub = DateComponents(day: -Config.INFECTIONPERIOD)
         let lastOkDate = Calendar.current.date(byAdding: daySub, to: dateHandler.currentDate())
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = ConstantsString.DATE_STR.rawValue
+        dateFormatter.dateFormat = Config.DATE_STR
         
         // update known encounters
         var toDrop: [String] = [] // to remove
@@ -223,7 +224,7 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
 // turns date into a coarse UTC time YYYY-MM-DD
 func dateToCoarseUTCTime(date: Date) -> String {
     let formatter = DateFormatter()
-    formatter.dateFormat = ConstantsString.DATE_STR.rawValue
+    formatter.dateFormat = Config.DATE_STR
     formatter.timeZone = TimeZone(identifier: "UTC")
     return formatter.string(from: date)
 }

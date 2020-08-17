@@ -41,12 +41,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         submitButton.layer.borderColor = UIColor.white.cgColor
         
         infectionDays = ["Today", "1 Day Ago"]
-        for day in 2..<Config.infectionPeriod {
+        for day in 2..<Config.INFECTIONPERIOD {
             infectionDays.append(String(day) + " Days Ago")
         }
         
         // setup dp3t
-        // DP3T.resetDefaults()
+//         DP3T.resetDefaults()
         dp3t = DP3T(date: Date(), viewController: self)
         dp3t?.getInfectedUsers()
     }
@@ -109,11 +109,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         CATransaction.setCompletionBlock({
             let infectionDaysAgo = self.infectionDayButton.currentTitle
             if infectionDaysAgo != "Choose" {
+                sender.isEnabled = false
                 var index = 0;
                 if infectionDaysAgo != "Today" {
                     index = Int(String(infectionDaysAgo!.split(separator: " ")[0]))!
                 }
-                index = Config.infectionPeriod - 1 - index
+                index = Config.INFECTIONPERIOD - 1 - index
                 self.sendSKt(index: index)
                 self.dp3t?.recreateSkt()
             }
@@ -130,7 +131,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     }
     
     @objc func getInfectedUsers(_ sender: UIButton) {
-//        sender.isEnabled = false
+        sender.isEnabled = false
         dp3t?.getInfectedUsers()
     }
     
@@ -145,7 +146,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         let substringToReplace = textFieldText[rangeOfTextToReplace]
         let count = textFieldText.count - substringToReplace.count + string.count
         
-        return allowedCharacters.isSuperset(of: characterSet) && count <= Config.authorizationCodeLength
+        return allowedCharacters.isSuperset(of: characterSet) && count <= Config.AUTHCODELENGTH
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

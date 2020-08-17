@@ -1,0 +1,19 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'dp3t' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for dp3t
+
+  target 'dp3tTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'dp3tUITests' do
+    # Pods for testing
+  end
+
+end

@@ -46,7 +46,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         }
         
         // setup dp3t
-        // DP3T.resetDefaults()
+        DP3T.resetDefaults()
         dp3t = DP3T(date: Date(), viewController: self)
         dp3t?.getInfectedUsers()
     }

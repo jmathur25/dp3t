@@ -137,8 +137,8 @@ class DP3T {
         
         print("Current SKT: \(getCurrentSKt())")
 
-//        let timer = Timer(fireAt: getStartOfNextDay(), interval: 0, target: self, selector: #selector(updateSKtsAndEphIDs), userInfo: nil, repeats: false)
-//        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
+        let timer = Timer(fireAt: getStartOfNextDay(), interval: 0, target: self, selector: #selector(updateSKtsAndEphIDs), userInfo: nil, repeats: false)
+        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
     }
     
     @objc private func updateCurrentEphID() {

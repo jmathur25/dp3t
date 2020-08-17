@@ -16,5 +16,5 @@ matrix:
     language: swift
     xcode_project: iosApp/dp3t.xcodeproj # path to your xcodeproj folder
     xcode_scheme: dp3t
-    xcode_destination: platform=iOS Simulator,name=iPhone X,OS:11.4
+    xcode_destination: platform=iOS Simulator,name=iPhone X,OS=11.4
   

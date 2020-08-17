@@ -14,5 +14,5 @@ matrix:
 
   include:
     osx_image: xcode11.6
-    script: cd iosApp && make test
+    script: cd iOSApp && make test
   

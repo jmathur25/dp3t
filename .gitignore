@@ -1,6 +1,7 @@
 .dp3t_server
 .vscode
 dump.rdb
+xcdebugger
 
 # Python generated
 # Byte-compiled / optimized / DLL files

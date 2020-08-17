@@ -42,11 +42,17 @@ def report_infected_user():
         resp = flask.make_response(msg, 400)
         return resp
     date_str = data['date']
+    date = None
     try:
         # see if we can parse date
-        datetime.datetime.strptime(date_str, config.DATE_FORMAT)
+        date = datetime.datetime.strptime(date_str, config.DATE_FORMAT)
     except:
         msg = f"Error: date was not expected format of {config.DATE_FORMAT}"
+        logging.info(msg)
+        resp = flask.make_response(msg, 400)
+        return resp
+    if (datetime.datetime.utcnow() - date).days > 14:
+        msg = f"Error: date was more than 14 days ago"
         logging.info(msg)
         resp = flask.make_response(msg, 400)
         return resp

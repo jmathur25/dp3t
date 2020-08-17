@@ -79,24 +79,25 @@ class DP3T {
     }
     
     func getStartOfNextDay() -> Date {
-        var tomorrow = calendar.date(byAdding: .day, value: 1, to: date)!
+        var tomorrow = calendar.date(byAdding: .day, value: 1, to: Date())!
         tomorrow = calendar.date(bySettingHour: 0, minute: 0, second: 1, of: tomorrow)!
         return tomorrow
     }
     
     func getNextEpoch() -> Date {
-        let hours = calendar.component(.hour, from: date)
-        let minutes = calendar.component(.minute, from: date)
-        let seconds = calendar.component(.second, from: date)
+        let currentDate = Date()
+        
+        let hours = calendar.component(.hour, from: currentDate)
+        let minutes = calendar.component(.minute, from: currentDate)
+        let seconds = calendar.component(.second, from: currentDate)
         var currentEpoch = Double(hours * 60 + minutes)
         currentEpoch += Double(seconds) / 60
         currentEpoch /= Double(Config.epochLength)
-        
+
         let secondsToNext = (floor(currentEpoch + 1) - currentEpoch) * Double(Config.epochLength) * 60
-        let nextDate = date.addingTimeInterval(secondsToNext)
+        let nextDate = currentDate.addingTimeInterval(secondsToNext)
         let nextHours = calendar.component(.hour, from: nextDate)
         let nextMinutes = calendar.component(.minute, from: nextDate)
-
         return calendar.date(bySettingHour: nextHours, minute: nextMinutes, second: 1, of: nextDate)!
     }
     
@@ -154,9 +155,9 @@ class DP3T {
         print("Broadcasting current ephID")
         print(getCurrentEphID())
         
-        // run timer
-//        let timer = Timer(fireAt: getNextEpoch(), interval: 0, target: self, selector: #selector(updateCurrentEphID), userInfo: nil, repeats: false)
-//        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
+         // run timer
+        let timer = Timer(fireAt: getNextEpoch(), interval: 0, target: self, selector: #selector(updateCurrentEphID), userInfo: nil, repeats: false)
+        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
     }
     
     

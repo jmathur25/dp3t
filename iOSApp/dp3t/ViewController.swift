@@ -29,11 +29,16 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         super.viewDidLoad()
         // Do any additional setup after loading the view.
  
+        syncInfectedUsers.addTarget(self, action: #selector(getInfectedUsers), for: .touchUpInside)
+        syncInfectedUsers.layer.cornerRadius = 7.5
+        syncInfectedUsers.layer.borderWidth = 2.5
+        syncInfectedUsers.layer.borderColor = UIColor.white.cgColor
         authorizationTextField.delegate = self
         infectionDayButton.addTarget(self, action: #selector(showInfectionPicker), for: .touchUpInside)
         submitButton.addTarget(self, action: #selector(submit), for: .touchUpInside)
         submitButton.layer.cornerRadius = 7.5
-        syncInfectedUsers.addTarget(self, action: #selector(getInfectedUsers), for: .touchUpInside)
+        submitButton.layer.borderWidth = 2.5
+        submitButton.layer.borderColor = UIColor.white.cgColor
         
         infectionDays = ["Today", "1 Day Ago"]
         for day in 2..<Config.infectionPeriod {
@@ -122,12 +127,11 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         pulse.damping = 0.8
         sender.layer.add(pulse, forKey: "pulse")
         CATransaction.commit()
-        sender.isEnabled = false
     }
     
     @objc func getInfectedUsers(_ sender: UIButton) {
+//        sender.isEnabled = false
         dp3t?.getInfectedUsers()
-        sender.isEnabled = false
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

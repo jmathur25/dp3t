@@ -72,7 +72,7 @@ class DP3T {
         // wipe data related to old SKT
         UserDefaults.standard.set([], forKey: "storedSKts")
         UserDefaults.standard.set("", forKey: "currentSKt")
-        UserDefaults.standard.set("", forKey: "storedDay")
+        UserDefaults.standard.set(0, forKey: "storedDay")
         // create new SKT and Eph IDs
         updateSKtsAndEphIDs()
         updateCurrentEphID()
@@ -114,7 +114,6 @@ class DP3T {
             return
         }
         
-        print("STORED DAY \(storedDay), CURRENT DAY \(currentDay)")
         // go from last stored day + 1 to current day
         // ex: user last opened on the 100th day and today is 105 (from Jan 1 2001)
         // this would go from 101 to 105 and update Skt
@@ -136,8 +135,7 @@ class DP3T {
         UserDefaults.standard.set(currentDay, forKey: "storedDay")
         UserDefaults.standard.set(currentSKt, forKey: "currentSKt")
         
-        print("Current SKt")
-        print(getCurrentSKt())
+        print("Current SKT: \(getCurrentSKt())")
 
 //        let timer = Timer(fireAt: getStartOfNextDay(), interval: 0, target: self, selector: #selector(updateSKtsAndEphIDs), userInfo: nil, repeats: false)
 //        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
@@ -157,8 +155,7 @@ class DP3T {
         
         bluetoothManager?.startAdvertising(with: getCurrentEphID())
         
-        print("Broadcasting current ephID")
-        print(getCurrentEphID())
+        print("Broadcasting current ephID: \(getCurrentEphID())")
         
          // run timer
         let timer = Timer(fireAt: getNextEpoch(), interval: 0, target: self, selector: #selector(updateCurrentEphID), userInfo: nil, repeats: false)
@@ -198,7 +195,7 @@ class DP3T {
     
     public func getInfectedUsers() {
         let session = URLSession.shared
-        let url = URL(string: "http://192.168.1.8:5000/infected_users_list")!
+        let url = URL(string: "\(Config.SERVER_URL)/infected_users_list")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
 
@@ -220,9 +217,8 @@ class DP3T {
         let formatter = DateFormatter()
         formatter.dateFormat = Config.DATE_STR
         
-        print("all recorded ids: \(bluetoothManager?.getEncounterKnownDict())")
+        print("all recorded ids: \(String(describing: bluetoothManager?.getEncounterKnownDict()))")
         for data in json {
-            print(data)
              if let str = data as? String {
                 let dict = str.toDictionary()
                 var user_SKt = dict["user_id"] as! String
@@ -259,8 +255,6 @@ class DP3T {
     }
     
     private func ephIDMatches(userEphIDs: [String], recordedEphIDs: Set<String>) -> Bool {
-        print("\n\nUSER EPH IDS\n-----\n\(userEphIDs)\n\n")
-         print("\n\nRECORDED IDS\n-----\n\(recordedEphIDs)\n\n")
         for ephID in userEphIDs {
             if recordedEphIDs.contains(ephID) {
                 print("matched \(ephID)")

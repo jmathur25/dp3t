@@ -46,7 +46,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         }
         
         // setup dp3t
-//         DP3T.resetDefaults()
+        // DP3T.resetDefaults()
         dp3t = DP3T(date: Date(), viewController: self)
         dp3t?.getInfectedUsers()
     }
@@ -63,7 +63,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             
             let parameters = ["user_id": data[0], "date": data[1]]
             let session = URLSession.shared
-            let url = URL(string: "http://192.168.1.8:5000/report_infected_user")!
+            let url = URL(string: "\(Config.SERVER_URL)/report_infected_user")!
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             let jsonData = try? JSONSerialization.data(withJSONObject: parameters)

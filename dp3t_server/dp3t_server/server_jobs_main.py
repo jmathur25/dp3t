@@ -1,3 +1,9 @@
+'''
+Run the following server jobs:
+
+- sync over the reported infected users to the daily distribution list every 24h (at UTC midnight)
+'''
+
 import logging
 from db import db
 

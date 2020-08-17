@@ -1,4 +1,4 @@
-''' this file defines all server endpoints '''
+''' This file defines all server endpoints '''
 
 import json
 import logging

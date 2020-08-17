@@ -32,14 +32,12 @@ class CoreBluetoothManager: NSObject, BluetoothManager {
     
     // MARK: - Public methods
     func startAdvertising(with name: String) {
-        print("trying to advertise")
         self.name = name
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
         print("advertising")
     }
     
     func startScanning() {
-        print("trying to scan")
         centralManager = CBCentralManager(delegate: self, queue: nil)
         print("scanning")
     }
@@ -66,7 +64,7 @@ extension CoreBluetoothManager: CBPeripheralManagerDelegate {
                 CBAdvertisementDataServiceUUIDsKey: [uuid]
             ]
             advertisingData[CBAdvertisementDataLocalNameKey] = name
-            print("advertising my name: \(name)")
+            print("advertising my name: \(String(describing: name))")
             self.peripheralManager?.startAdvertising(advertisingData)
         } else {
             #warning("handle other states")
@@ -155,9 +153,8 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
         var deviceEncounterUnKnown = getEncounterUnKnownDict()
         let ephID = advertisementData[CBAdvertisementDataLocalNameKey] as? String
         if ephID != nil {
-            print("got advertising data id: " + ephID!)
+            print("got eph id: " + ephID!)
             let time = dateToCoarseUTCTime(date: dateHandler.currentDate())
-            print("TIME: \(time)")
             if deviceEncounterKnown[time] != nil {
                 // add to existing list
                 deviceEncounterKnown[time]!.append(ephID!)
@@ -169,7 +166,7 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
                 print("created new list")
             }
         } else {
-            print("got advertising data id: nil")
+            print("got eph id: nil")
             let time = dateToCoarseUTCTime(date: dateHandler.currentDate())
             if deviceEncounterUnKnown[time] != nil {
                 // add to existing list

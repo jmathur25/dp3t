@@ -1,6 +1,9 @@
+'''
+Test the db server jobs
+'''
+
 import unittest
 from unittest import mock
-import datetime
 from freezegun import freeze_time
 import fakeredis
 import json

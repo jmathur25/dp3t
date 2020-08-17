@@ -1,4 +1,6 @@
-''' configurations '''
+'''
+Configs for the server and server jobs
+'''
 
 import redis
 import os

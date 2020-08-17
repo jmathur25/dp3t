@@ -3,10 +3,10 @@ Runs integration tests for the server
 '''
 
 import unittest
-import requests
 import json
 import time
 import datetime
+import requests
 
 URL = 'http://localhost:5000'
 

@@ -62,7 +62,7 @@ def sleep_until_utc_midnight():
 
 # delete the day distribution list
 def purge_infected_users_list():
-    logging.info(f"purging distribution list")
+    logging.info("purging distribution list")
     config.REDIS_CLIENT.delete(config.REDIS_DISTRIBUTE_INFECTED_USERS_KEY)
 
 

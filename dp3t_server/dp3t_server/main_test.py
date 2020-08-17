@@ -1,6 +1,9 @@
+'''
+Test the Flask server endpoints
+'''
+
 import unittest
 from unittest import mock
-import datetime
 import json
 import fakeredis
 from freezegun import freeze_time

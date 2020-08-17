@@ -2,19 +2,20 @@ services:
   - docker
 
 matrix:
-  include:
-      language: python
-      python: "3.7.3"
-      before_install: cd dp3t_server
-      install:
-        - make setup
+  # include:
+  #     language: python
+  #     python: "3.7.3"
+  #     before_install: cd dp3t_server
+  #     install:
+  #       - make setup
       
-      script:
-        - make test
+  #     script:
+  #       - make test
 
   include:
     language: swift
+    osx_image: xcode11.6
     xcode_project: iosApp/dp3t.xcodeproj # path to your xcodeproj folder
     xcode_scheme: dp3t
-    xcode_destination: platform=iOS Simulator,name=iPhone X,OS=11.4
+    xcode_destination: platform=iOS Simulator,OS=11.3,name=iPhone X
   

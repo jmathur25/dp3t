@@ -13,18 +13,24 @@ import CryptoSwift
 class DP3T {
     
     private var date: Date
-    private var calendar: Calendar    
+    private var calendar: Calendar
     
     private var viewController: ViewController?
     
+    // setup bluetooth
+    var bluetoothManager: CoreBluetoothManager?
+    
     init(date: Date, viewController: ViewController? = nil) {
         self.date = date
-        calendar = Calendar.current
-        calendar.timeZone = TimeZone(abbreviation: "UTC")!
+        self.calendar = Calendar.current
+        self.calendar.timeZone = TimeZone(abbreviation: "UTC")!
         self.viewController = viewController
+        self.bluetoothManager = CoreBluetoothManager(dateManager: DateHandler())
+        self.bluetoothManager?.startScanning()
         
         updateSKtsAndEphIDs()
         updateCurrentEphID()
+        getInfectedUsers()
     }
     
     static func resetDefaults() {
@@ -114,9 +120,12 @@ class DP3T {
                 UserDefaults.standard.set(currentSKt, forKey: "currentSKt")
             }
         }
+        
+        print("Current SKt")
+        print(getCurrentSKt())
 
-//        let timer = Timer(fireAt: getStartOfNextDay(), interval: 0, target: self, selector: #selector(updateSKtsAndEphIDs), userInfo: nil, repeats: false)
-//        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
+        let timer = Timer(fireAt: getStartOfNextDay(), interval: 0, target: self, selector: #selector(updateSKtsAndEphIDs), userInfo: nil, repeats: false)
+        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
     }
     
     @objc private func updateCurrentEphID() {
@@ -128,12 +137,17 @@ class DP3T {
         let currentEpoch = (hours * 60 + minutes) / Config.epochLength
         if currentEpoch < storedEphIDs.count {
             let currentEphID = storedEphIDs[currentEpoch]
-            
             UserDefaults.standard.set(currentEphID, forKey: "currentEphID")
         }
         
-//        let timer = Timer(fireAt: getNextEpoch(), interval: 0, target: self, selector: #selector(updateCurrentEphID), userInfo: nil, repeats: false)
-//        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
+        bluetoothManager?.startAdvertising(with: getCurrentEphID())
+        
+        print("Broadcasting current ephID")
+        print(getCurrentEphID())
+        
+        // run timer
+        let timer = Timer(fireAt: getNextEpoch(), interval: 0, target: self, selector: #selector(updateCurrentEphID), userInfo: nil, repeats: false)
+        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
     }
     
     
@@ -167,7 +181,7 @@ class DP3T {
         return ephIDs.shuffled()
     }
     
-    func getInfectedUsers() {
+    private func getInfectedUsers() {
         let session = URLSession.shared
         let url = URL(string: "http://192.168.1.8:5000/infected_users_list")!
         var request = URLRequest(url: url)

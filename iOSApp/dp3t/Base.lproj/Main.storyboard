@@ -10,28 +10,82 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="dp3t" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Test" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="YEEET" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gds-KB-1Cw">
-                                <rect key="frame" x="159" y="431" width="97" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What is your Authorization Code?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBq-fr-t5V">
+                                <rect key="frame" x="5" y="342.5" width="404" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="000000" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="avI-Nd-TV4" userLabel="Authorization Input">
+                                <rect key="frame" x="146.5" y="376.5" width="121.5" height="39.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="When were you diagnosed with COVID-19?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NfC-eR-GU9">
+                                <rect key="frame" x="5" y="436" width="404" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zcb-c4-vVz">
+                                <rect key="frame" x="173" y="470" width="68" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Choose"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HQy-u6-ZLi">
+                                <rect key="frame" x="163" y="526" width="88" height="44"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                <state key="normal" title="Submit">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oS2-0I-a3j" userLabel="Matches Label">
+                                <rect key="frame" x="5" y="94" width="404" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <accessibility key="accessibilityConfiguration">
-                            <accessibilityTraits key="traits" notEnabled="YES" adjustable="YES"/>
-                        </accessibility>
+                        <constraints>
+                            <constraint firstItem="oS2-0I-a3j" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4Fi-qJ-VSQ"/>
+                            <constraint firstAttribute="trailing" secondItem="oS2-0I-a3j" secondAttribute="trailing" constant="5" id="D9T-45-i93"/>
+                            <constraint firstItem="eBq-fr-t5V" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="KzL-sY-7cO"/>
+                            <constraint firstItem="Zcb-c4-vVz" firstAttribute="top" secondItem="NfC-eR-GU9" secondAttribute="bottom" constant="10" id="L5f-3p-efF"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NfC-eR-GU9" secondAttribute="trailing" constant="5" id="LrU-v2-jcr"/>
+                            <constraint firstItem="avI-Nd-TV4" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="MWl-lw-apn"/>
+                            <constraint firstItem="HQy-u6-ZLi" firstAttribute="top" secondItem="Zcb-c4-vVz" secondAttribute="bottom" constant="20" id="Mb0-JK-ohE"/>
+                            <constraint firstItem="oS2-0I-a3j" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="Rr4-Qm-t0X"/>
+                            <constraint firstItem="NfC-eR-GU9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="akc-qL-65K"/>
+                            <constraint firstItem="HQy-u6-ZLi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="e31-Db-qaY"/>
+                            <constraint firstItem="NfC-eR-GU9" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="hNf-Kp-S4s"/>
+                            <constraint firstItem="NfC-eR-GU9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="jY3-k6-RyK"/>
+                            <constraint firstItem="eBq-fr-t5V" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lme-Cf-wQX"/>
+                            <constraint firstItem="avI-Nd-TV4" firstAttribute="top" secondItem="eBq-fr-t5V" secondAttribute="bottom" constant="10" id="mYh-sE-S95"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eBq-fr-t5V" secondAttribute="trailing" constant="5" id="o05-0b-Cpm"/>
+                            <constraint firstItem="NfC-eR-GU9" firstAttribute="top" secondItem="avI-Nd-TV4" secondAttribute="bottom" constant="20" id="uPo-ea-Eu2"/>
+                            <constraint firstItem="Zcb-c4-vVz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="uaN-EV-bSZ"/>
+                            <constraint firstItem="oS2-0I-a3j" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="5" id="w3b-QM-foO"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="authorizationTextField" destination="avI-Nd-TV4" id="HLm-aY-CUf"/>
+                        <outlet property="infectionDayButton" destination="Zcb-c4-vVz" id="V0n-wL-daw"/>
+                        <outlet property="matchesLabel" destination="oS2-0I-a3j" id="PKf-CV-jOm"/>
+                        <outlet property="submitButton" destination="HQy-u6-ZLi" id="qVG-r5-vDZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="110"/>
+            <point key="canvasLocation" x="132" y="72"/>
         </scene>
     </scenes>
 </document>

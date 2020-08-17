@@ -3,10 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3277D64BB840674C01F1BB02 /* Pods_dp3t.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1396BA93E000340579BC75B5 /* Pods_dp3t.framework */; };
+		4121A040A7F301C9A0AF920F /* Pods_dp3t_dp3tUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9B26757CF3EEDB1F2D165EA /* Pods_dp3t_dp3tUITests.framework */; };
+		4C35455524EA2B760027484C /* DP3T.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C35455424EA2B760027484C /* DP3T.swift */; };
+		4C35455724EA2BA30027484C /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C35455624EA2BA30027484C /* Config.swift */; };
+		7F8A6FE891A29972823FD111 /* Pods_dp3tTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5526BA9B7F185A4270A315D1 /* Pods_dp3tTests.framework */; };
 		E7751CEB24E3834C00AA7AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7751CEA24E3834C00AA7AC3 /* AppDelegate.swift */; };
 		E7751CED24E3834C00AA7AC3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7751CEC24E3834C00AA7AC3 /* SceneDelegate.swift */; };
 		E7751CF224E3834C00AA7AC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7751CF024E3834C00AA7AC3 /* Main.storyboard */; };
@@ -38,6 +43,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1336B89531A26F0BE2C34139 /* Pods-dp3t-dp3tUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dp3t-dp3tUITests.debug.xcconfig"; path = "Target Support Files/Pods-dp3t-dp3tUITests/Pods-dp3t-dp3tUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		1396BA93E000340579BC75B5 /* Pods_dp3t.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dp3t.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		25301AE97C49FB857AF5DE91 /* Pods-dp3t-dp3tUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dp3t-dp3tUITests.release.xcconfig"; path = "Target Support Files/Pods-dp3t-dp3tUITests/Pods-dp3t-dp3tUITests.release.xcconfig"; sourceTree = "<group>"; };
+		4C35455424EA2B760027484C /* DP3T.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DP3T.swift; sourceTree = "<group>"; };
+		4C35455624EA2BA30027484C /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		5526BA9B7F185A4270A315D1 /* Pods_dp3tTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dp3tTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		641D8907C185EDA0F8DFD4DD /* Pods-dp3tTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dp3tTests.debug.xcconfig"; path = "Target Support Files/Pods-dp3tTests/Pods-dp3tTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6CCE5F6F762193CEC7D9447A /* Pods-dp3t.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dp3t.release.xcconfig"; path = "Target Support Files/Pods-dp3t/Pods-dp3t.release.xcconfig"; sourceTree = "<group>"; };
+		A16B094D51A338834D2333F1 /* Pods-dp3tTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dp3tTests.release.xcconfig"; path = "Target Support Files/Pods-dp3tTests/Pods-dp3tTests.release.xcconfig"; sourceTree = "<group>"; };
+		AFA8A38E055603FAC1E76C90 /* Pods-dp3t.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dp3t.debug.xcconfig"; path = "Target Support Files/Pods-dp3t/Pods-dp3t.debug.xcconfig"; sourceTree = "<group>"; };
+		D9B26757CF3EEDB1F2D165EA /* Pods_dp3t_dp3tUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dp3t_dp3tUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7751CE724E3834C00AA7AC3 /* dp3t.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dp3t.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7751CEA24E3834C00AA7AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E7751CEC24E3834C00AA7AC3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3277D64BB840674C01F1BB02 /* Pods_dp3t.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F8A6FE891A29972823FD111 /* Pods_dp3tTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,12 +95,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4121A040A7F301C9A0AF920F /* Pods_dp3t_dp3tUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6EEC2B8BF9038606F99F6FC9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1396BA93E000340579BC75B5 /* Pods_dp3t.framework */,
+				D9B26757CF3EEDB1F2D165EA /* Pods_dp3t_dp3tUITests.framework */,
+				5526BA9B7F185A4270A315D1 /* Pods_dp3tTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7A5A0D001583DF5C29B1C36D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AFA8A38E055603FAC1E76C90 /* Pods-dp3t.debug.xcconfig */,
+				6CCE5F6F762193CEC7D9447A /* Pods-dp3t.release.xcconfig */,
+				1336B89531A26F0BE2C34139 /* Pods-dp3t-dp3tUITests.debug.xcconfig */,
+				25301AE97C49FB857AF5DE91 /* Pods-dp3t-dp3tUITests.release.xcconfig */,
+				641D8907C185EDA0F8DFD4DD /* Pods-dp3tTests.debug.xcconfig */,
+				A16B094D51A338834D2333F1 /* Pods-dp3tTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		E7751CDE24E3834C00AA7AC3 = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +132,8 @@
 				E7751D0024E3834D00AA7AC3 /* dp3tTests */,
 				E7751D0B24E3834D00AA7AC3 /* dp3tUITests */,
 				E7751CE824E3834C00AA7AC3 /* Products */,
+				7A5A0D001583DF5C29B1C36D /* Pods */,
+				6EEC2B8BF9038606F99F6FC9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -110,6 +154,8 @@
 				E7751CF024E3834C00AA7AC3 /* Main.storyboard */,
 				E7751CF524E3834D00AA7AC3 /* LaunchScreen.storyboard */,
 				E7751D1A24E3836F00AA7AC3 /* ViewController.swift */,
+				4C35455424EA2B760027484C /* DP3T.swift */,
+				4C35455624EA2BA30027484C /* Config.swift */,
 				E7751D2224E38A0800AA7AC3 /* Constants.swift */,
 				E7751D2024E3899300AA7AC3 /* CoreBluetoothManager.swift */,
 				E7DB341024E9EA9F00B26A56 /* Utils.swift */,
@@ -146,9 +192,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E7751D1124E3834D00AA7AC3 /* Build configuration list for PBXNativeTarget "dp3t" */;
 			buildPhases = (
+				4279378E6740F77C1AFFCD23 /* [CP] Check Pods Manifest.lock */,
 				E7751CE324E3834C00AA7AC3 /* Sources */,
 				E7751CE424E3834C00AA7AC3 /* Frameworks */,
 				E7751CE524E3834C00AA7AC3 /* Resources */,
+				EBA492A51781145DE179E782 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -163,6 +211,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E7751D1424E3834D00AA7AC3 /* Build configuration list for PBXNativeTarget "dp3tTests" */;
 			buildPhases = (
+				5EF7FD9D298972FAFE464536 /* [CP] Check Pods Manifest.lock */,
 				E7751CF924E3834D00AA7AC3 /* Sources */,
 				E7751CFA24E3834D00AA7AC3 /* Frameworks */,
 				E7751CFB24E3834D00AA7AC3 /* Resources */,
@@ -181,9 +230,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E7751D1724E3834D00AA7AC3 /* Build configuration list for PBXNativeTarget "dp3tUITests" */;
 			buildPhases = (
+				C02EF491985F7A1189FC59E4 /* [CP] Check Pods Manifest.lock */,
 				E7751D0424E3834D00AA7AC3 /* Sources */,
 				E7751D0524E3834D00AA7AC3 /* Frameworks */,
 				E7751D0624E3834D00AA7AC3 /* Resources */,
+				7EA40EA728AECE04960C15B6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -265,6 +316,109 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4279378E6740F77C1AFFCD23 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-dp3t-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5EF7FD9D298972FAFE464536 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-dp3tTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7EA40EA728AECE04960C15B6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-dp3t-dp3tUITests/Pods-dp3t-dp3tUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-dp3t-dp3tUITests/Pods-dp3t-dp3tUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-dp3t-dp3tUITests/Pods-dp3t-dp3tUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C02EF491985F7A1189FC59E4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-dp3t-dp3tUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EBA492A51781145DE179E782 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-dp3t/Pods-dp3t-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-dp3t/Pods-dp3t-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-dp3t/Pods-dp3t-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E7751CE324E3834C00AA7AC3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -275,7 +429,9 @@
 				E7751CEB24E3834C00AA7AC3 /* AppDelegate.swift in Sources */,
 				E7751D2124E3899300AA7AC3 /* CoreBluetoothManager.swift in Sources */,
 				E7751CED24E3834C00AA7AC3 /* SceneDelegate.swift in Sources */,
+				4C35455724EA2BA30027484C /* Config.swift in Sources */,
 				E7DB341124E9EA9F00B26A56 /* Utils.swift in Sources */,
+				4C35455524EA2B760027484C /* DP3T.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +602,7 @@
 		};
 		E7751D1224E3834D00AA7AC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AFA8A38E055603FAC1E76C90 /* Pods-dp3t.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = dp3t/dp3t.entitlements;
@@ -468,6 +625,7 @@
 		};
 		E7751D1324E3834D00AA7AC3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6CCE5F6F762193CEC7D9447A /* Pods-dp3t.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = dp3t/dp3t.entitlements;
@@ -490,6 +648,7 @@
 		};
 		E7751D1524E3834D00AA7AC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 641D8907C185EDA0F8DFD4DD /* Pods-dp3tTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -512,6 +671,7 @@
 		};
 		E7751D1624E3834D00AA7AC3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A16B094D51A338834D2333F1 /* Pods-dp3tTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -534,6 +694,7 @@
 		};
 		E7751D1824E3834D00AA7AC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1336B89531A26F0BE2C34139 /* Pods-dp3t-dp3tUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -554,6 +715,7 @@
 		};
 		E7751D1924E3834D00AA7AC3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 25301AE97C49FB857AF5DE91 /* Pods-dp3t-dp3tUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

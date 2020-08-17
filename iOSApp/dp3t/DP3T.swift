@@ -253,6 +253,8 @@ class DP3T {
     }
     
     private func ephIDMatches(userEphIDs: [String], recordedEphIDs: Set<String>) -> Bool {
+        print("\n\nUSER EPH IDS\n-----\n\(userEphIDs)\n\n")
+         print("\n\nRECORDED IDS\n-----\n\(recordedEphIDs)\n\n")
         for ephID in userEphIDs {
             if recordedEphIDs.contains(ephID) {
                 print("matched \(ephID)")

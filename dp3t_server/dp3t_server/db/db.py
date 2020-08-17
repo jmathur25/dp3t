@@ -34,15 +34,15 @@ def run_maintenance():
 # does not wipe the old infected users list
 def run_test_maintenance():
     logging.info("every second we check for reported users and sync them over...")
-    previous_num_users = 0
     while True:
-        infected_list = config.REDIS_CLIENT.lrange(config.REDIS_LATEST_INFECTED_USERS_KEY, 0, -1)
-        if len(infected_list) != previous_num_users:
-            logging.info(f"syncing {len(infected_list)} users over")
-            for user_data in infected_list:
+        infected_list = set(config.REDIS_CLIENT.lrange(config.REDIS_LATEST_INFECTED_USERS_KEY, 0, -1))
+        current_list = set(config.REDIS_CLIENT.lrange(config.REDIS_DISTRIBUTE_INFECTED_USERS_KEY, 0, -1))
+        num_synced = 0
+        for user_data in infected_list:
+            if user_data not in current_list:
                 config.REDIS_CLIENT.rpush(config.REDIS_DISTRIBUTE_INFECTED_USERS_KEY, user_data)
-            # save this
-            previous_num_users = len(infected_list)
+        if num_synced != 0:
+            logging.info(f"synced {num_synced} users over")
         time.sleep(1)
 
 

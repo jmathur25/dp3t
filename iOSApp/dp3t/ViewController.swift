@@ -122,10 +122,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         pulse.damping = 0.8
         sender.layer.add(pulse, forKey: "pulse")
         CATransaction.commit()
+        sender.isEnabled = false
     }
     
     @objc func getInfectedUsers(_ sender: UIButton) {
         dp3t?.getInfectedUsers()
+        sender.isEnabled = false
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

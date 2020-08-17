@@ -159,8 +159,7 @@ extension CoreBluetoothManager: CBCentralManagerDelegate {
             print("TIME: \(time)")
             if deviceEncounterKnown[time] != nil {
                 // add to existing list
-                var existingEncounters = deviceEncounterKnown[time]
-                existingEncounters!.append(ephID!)
+                deviceEncounterKnown[time]!.append(ephID!)
                 print("inserted into existing list")
             } else {
                 // create the key and list

@@ -20,7 +20,7 @@ make local
 This setups up two docker containers, one for `dp3t_server` and the other for `redis`.
 The `dp3t_server` container (called `dp3t_server_local`) is a volume mount to the `dp3t_server` folder, 
 meaning if you change code in that folder it will reflect in the container. The local server is a Flask server, so Flask's 
-auto restart upon detecting file changes applies despite being run in a Docker container.
+auto restart still works despite being run in a Docker container.
 
 You can also explicitly run the flask server by running:
 ```
@@ -54,9 +54,7 @@ you can use the exact same commands for deployment but test it out locally first
 because local development can use the local context, whereas deployment assumes no context. Check out the
 differences between `dp3t_server/prod.Dockerfile` and `dp3t_server/local.Dockerfile`.
 
-<strong>
-The following instructions can be run both on the local kubernetes docker context and the publicly available GKE context.
-</strong>
+**The following instructions can be run both with docker's local kubernetes and GKE.** <br />
 
 If you are doing this for the first time, run:
 ```
@@ -68,14 +66,14 @@ Then:
 make deploy
 ```
 
-To access the deployed service, we need to load balancer's external IP. Run the following command to see it:
+To access the deployed service, we need the load balancer's external IP. Run the following command to see it:
 ```
 kubectl -n dp3t get svc
 ```
 On local, this will just be `localhost:80`.
-On prod, it might take a few seconds for GKE to give you an external IP. When it is available, run `curl http://<external ip>:<external port>`. The response should be "App home page :)". If so, congrats you have deployed successfully using the awesomeness that is Docker and Kubernetes :).
+On prod, it might take a few seconds for GKE to give you an external IP. When it is available, run `curl http://<external ip>:<external port>`. The response should be "App home page :)". If so, *congrats* you have deployed successfully with the awesomeness that is Docker and Kubernetes :).
 
 To end the deployment, run:
 ```
-make teardown
+make deploy-teardown
 ```

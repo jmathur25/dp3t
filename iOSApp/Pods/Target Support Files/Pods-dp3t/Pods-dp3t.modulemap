@@ -1,0 +1,6 @@
+framework module Pods_dp3t {
+  umbrella header "Pods-dp3t-umbrella.h"
+
+  export *
+  module * { export * }
+}

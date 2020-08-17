@@ -23,6 +23,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     var infectionDays: [String] = [String]()
     
     var dp3t: DP3T?
+    var bluetoothManager: CoreBluetoothManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,10 +39,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             infectionDays.append(String(day) + " Days Ago")
         }
         
-        
+        // setup dp3t
         DP3T.resetDefaults()
         dp3t = DP3T(date: Date(), viewController: self)
-        dp3t?.getInfectedUsers()
     }
     
     func sendSKt(index: Int) {

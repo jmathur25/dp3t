@@ -171,6 +171,7 @@ class DP3T {
         }
         
         let hash = SHA256.hash(data: Data(previousSKt!.utf8)).description
+        // Removes SHA Digest from text
         let startIndex = hash.index(hash.startIndex, offsetBy: 15)
         let endIndex = hash.index(hash.endIndex, offsetBy: 0)
         return String(hash[startIndex..<endIndex])

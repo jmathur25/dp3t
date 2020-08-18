@@ -4,7 +4,7 @@
 An implementation of the DP3T contact tracing protocol. You can find more about the original proposal, white paper, and code at https://github.com/DP-3T/.
 
 DP3T is a privary preserving contact tracing protocol that can help users know if they have been exposed to a virus. It was designed in the context of
-COVID 19, but in theory could be used for any pandemic. The following is an outline of how it works:
+COVID-19, but in theory could be used for any pandemic. The following is an outline of how it works:
 
 1. Users download the app.
 2. Generate an initial secret key.
@@ -12,7 +12,7 @@ COVID 19, but in theory could be used for any pandemic. The following is an outl
 4. Adverise your ephemeral id over Bluetooth Low Energy (BLE). Every 15 minutes, use a new ephemeral ID from the list.
 5. Scan for devices over BLE. Store any ephemeral IDs that you see along with a coarse indication of time (the current day would suffice).
 6. Every day, generate a new secret key deterministically off the previous and repeat #3-6.
-7. If a user tests positive for COVID 19, they self-report on the app. They also identify when they think they were first exposed. They send their (secret key, coarse time of exposure) to the backend server. Then, they generate a new initial secret key and repeat #3-6.
+7. If a user tests positive for COVID-19, they self-report on the app. They also identify when they think they were first exposed. They send their (secret key, coarse time of exposure) to the backend server. Then, they generate a new initial secret key and repeat #3-6.
 8. The backend server collects these secret keys and coarse times throughout the day. It uses this data to create a daily distribution list of secret keys of people with the virus.
 9. Periodically, users will pull from the server to get the latest list of (secret key, coarse time of exposure). For each key, the following procedure is done:
     - make note of the coarse time of exposure
@@ -45,8 +45,7 @@ Screenshots: <br />
 <img src="static/notification.PNG" alt="App Notification" width="200"/>
 
 <br />
-Note that the notification is not backend generated, but rather from the app itself when it realizes it has seen an infected user.
-<br />
+Note that the notification is not backend-generated, but rather from the app itself when it realizes it has seen an infected user.
 <br />
 
 # Limitations

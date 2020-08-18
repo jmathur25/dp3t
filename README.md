@@ -42,9 +42,15 @@ We wrote a minimal implementation of DP3T that includes its most important featu
 
 Screenshots: <br />
 <img src="static/app_sc.PNG" alt="App Screenshot" width="200"/>
+<img src="static/notification.PNG" alt="App Notification" width="200"/>
+
+<br />
+Note that the notification is not backend generated, but rather from the app itself when it realizes it has seen an infected user.
+<br />
+<br />
 
 # Limitations
-- **The app only works in the foreground, due to Apple's restrictions on using Bluetooth in the background.** They made an Exposure Notifications API
+- **The app only works in the foreground, due to Apple's restrictions on using Bluetooth in the background.** Apple made an Exposure Notifications API
 after DP3T came out to allow certain *licensed* apps to use Bluetooth resources in the background.
 - Only works on iOS devices.
 - The daily distribution list is served by the server, but it could be served via CDN because it is fairly static. This would scale much better.

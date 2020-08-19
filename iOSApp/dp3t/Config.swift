@@ -8,8 +8,8 @@
 
 class Config {
     
-    // URL of backend server
-    public static var SERVER_URL = "http://34.74.192.138"
+    // URL of backend server, if running locally use your local IP
+    public static var SERVER_URL = "http://192.168.1.10:5000"
     
     public static var AUTHCODELENGTH = 6
     // 14 days max infection period
